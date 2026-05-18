@@ -1,0 +1,1 @@
+const GALLERY_CONFIG = {};
