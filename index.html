@@ -10,133 +10,30 @@
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="/">
-        <div class="logo">普</div>
-        <div><div class="brand-zh" id="schoolZh"></div><div class="brand-en" id="schoolEn"></div></div>
-      </a>
-      <nav class="nav"><a href="/">首頁</a><a class="active" href="/">相簿瀏覽</a><a href="#gallery">活動相片</a><a href="#">關於尚計劃</a></nav>
-      <div class="tools"><label class="search">🔍<input id="search" type="search" placeholder="搜尋相簿或相片..." /></label><button class="btn btn-primary" id="latestBtn">📷 最新</button></div>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="hero-inner">
-      <div>
-        <div class="eyebrow" id="eyebrow">✨ 尚計劃｜活動紀錄</div>
-        <h1 id="siteTitle"></h1>
-        <p class="subtitle" id="siteSubtitle"></p>
-        <div class="chips" id="chips"></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-icon">📘</div><div><div class="stat-label">活動相簿</div><div class="stat-value" id="albumCount">0</div></div></div>
-          <div class="stat"><div class="stat-icon">🖼️</div><div><div class="stat-label">相片總數</div><div class="stat-value" id="photoCount">0</div></div></div>
-          <div class="stat"><div class="stat-icon">🕘</div><div><div class="stat-label">最近更新</div><div class="stat-value" id="latestUpdate">--</div></div></div>
-        </div>
-      </div>
-      <article class="feature" id="featureCard"></article>
-    </div>
-  </section>
-
-  <main>
-    <a class="btn btn-light back" id="backBtn" href="/" style="display:none">← 返回所有相簿</a>
-    <div class="section-head">
-      <div><div class="section-title" id="sectionTitle">最新活動相簿</div><div class="section-sub" id="sectionSub">以 Google Sheet 管理活動資料，每個相簿連接一個 Drive Folder。</div></div>
-      <div class="controls"><select id="sort"><option value="sortOrder">排序：自訂</option><option value="newest">排序：最新</option><option value="oldest">排序：最舊</option></select></div>
-    </div>
-    <div class="status" id="status">正在載入...</div>
-    <section id="gallery" class="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></section>
-  </main>
-
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="./"><div class="logo">普</div><div><div class="brand-zh" id="schoolZh"></div><div class="brand-en" id="schoolEn"></div></div></a><nav class="nav"><a href="./">首頁</a><a class="active" href="./">相簿瀏覽</a><a href="#gallery">活動相片</a><a href="#">關於尚計劃</a></nav><div class="tools"><label class="search">🔍<input id="search" type="search" placeholder="搜尋相簿或相片..." /></label><button class="btn btn-primary" id="latestBtn">📷 最新</button></div></div></header>
+  <section class="hero"><div class="hero-inner"><div><div class="eyebrow">✨ 尚計劃｜活動紀錄</div><h1 id="siteTitle"></h1><p class="subtitle" id="siteSubtitle"></p><div class="chips" id="chips"></div><div class="stats"><div class="stat"><div class="stat-icon">📘</div><div><div class="stat-label">活動相簿</div><div class="stat-value" id="albumCount">0</div></div></div><div class="stat"><div class="stat-icon">🖼️</div><div><div class="stat-label">相片總數</div><div class="stat-value" id="photoCount">0</div></div></div><div class="stat"><div class="stat-icon">🕘</div><div><div class="stat-label">最近更新</div><div class="stat-value" id="latestUpdate">--</div></div></div></div></div><article class="feature" id="featureCard"></article></div></section>
+  <main><a class="btn btn-light back" id="backBtn" href="./" style="display:none">← 返回所有相簿</a><div class="section-head"><div><div class="section-title" id="sectionTitle">最新活動相簿</div><div class="section-sub" id="sectionSub">以 Google Sheet 管理活動資料，每個相簿連接一個 Drive Folder。</div></div><div class="controls"><select id="sort"><option value="sortOrder">排序：自訂</option><option value="newest">排序：最新</option><option value="oldest">排序：最舊</option></select></div></div><div class="status" id="status">正在載入...</div><section id="gallery" class="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></section></main>
   <footer><div class="footer-inner"><div><div class="footer-brand" id="footerSchool"></div><div id="footerText"></div></div><div>私隱政策 ｜ 使用條款 ｜ 聯絡我們</div></div></footer>
-
   <script>
     const CONFIG = window.GALLERY_CONFIG || {};
     const fallbackImage = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='760'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop offset='0' stop-color='#1557d6'/><stop offset='1' stop-color='#18b7a6'/></linearGradient></defs><rect width='1200' height='760' fill='url(#g)'/><circle cx='930' cy='170' r='120' fill='rgba(255,255,255,.17)'/><text x='80' y='360' fill='white' font-size='72' font-family='Arial' font-weight='800'>尚計劃活動相簿</text><text x='85' y='430' fill='rgba(255,255,255,.86)' font-size='34' font-family='Arial'>Shine Plan Photo Albums</text></svg>`);
-    let albums = []; let photos = []; let activeCategory = "全部相簿"; let mode = "albums"; let currentAlbum = null;
-
+    let albums = [], photos = [], activeCategory = "全部相簿", mode = "albums", currentAlbum = null;
     init();
-
-    function init(){
-      text("schoolZh", CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
-      text("schoolEn", CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
-      text("siteTitle", CONFIG.siteTitle || "尚計劃活動相片集");
-      text("siteSubtitle", CONFIG.siteSubtitle || "記錄學生參與尚銀行、網尚店、工作體驗及校園服務的學習歷程。");
-      text("footerSchool", (CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校") + "｜" + (CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School"));
-      text("footerText", CONFIG.footerText || "HHCLKA Buddhist Po Kwong School");
-      renderChips();
-      document.getElementById("search").addEventListener("input", render);
-      document.getElementById("sort").addEventListener("change", render);
-      document.getElementById("latestBtn").addEventListener("click",()=>document.getElementById("gallery").scrollIntoView({behavior:"smooth"}));
-      const albumId = new URLSearchParams(location.search).get("album");
-      if(albumId) loadAlbum(albumId); else loadAlbums();
-    }
-
-    function renderChips(){
-      const cats = CONFIG.categories || ["全部相簿","尚銀行","網尚店","工作體驗","校園服務","其他"];
-      document.getElementById("chips").innerHTML = cats.map((c,i)=>`<button class="chip ${i===0?'active':''}" data-cat="${escAttr(c)}">${esc(c)}</button>`).join("");
-      document.getElementById("chips").onclick = e => { const b=e.target.closest(".chip"); if(!b) return; activeCategory=b.dataset.cat; document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active")); b.classList.add("active"); render(); };
-    }
-
-    async function loadAlbums(){
-      mode="albums"; document.getElementById("backBtn").style.display="none"; text("sectionTitle","最新活動相簿"); text("sectionSub","每個活動相簿連接一個 Google Drive Folder，方便日後持續新增活動。");
-      try{
-        const data = await getJson("/api?action=albums");
-        if(!data.ok) throw new Error(data.error || "API 回傳錯誤");
-        albums = Array.isArray(data.albums) ? data.albums : [];
-        text("albumCount", albums.length); text("photoCount", albums.reduce((s,a)=>s+Number(a.photoCount||0),0));
-        const latest = [...albums].sort((a,b)=>new Date(b.latestUpdated||0)-new Date(a.latestUpdated||0))[0]; text("latestUpdate", latest ? smartDate(latest.latestUpdated) : "--");
-        renderFeature(albums.find(a=>String(a.featured).toUpperCase()==="TRUE") || albums[0]);
-        render();
-      }catch(err){ showError(err.message + "。請確認 Apps Script 已更新為多相簿版本，並已設定 ALBUM_SHEET_ID。") }
-    }
-
-    async function loadAlbum(albumId){
-      mode="photos"; document.getElementById("backBtn").style.display="inline-flex";
-      try{
-        const data = await getJson("/api?action=photos&albumId=" + encodeURIComponent(albumId));
-        if(!data.ok) throw new Error(data.error || "API 回傳錯誤");
-        currentAlbum = data.album || {title:"活動相簿",category:"其他"}; photos = Array.isArray(data.photos) ? data.photos : [];
-        text("sectionTitle", currentAlbum.title || "活動相簿"); text("sectionSub", (currentAlbum.dateText || "") + "　" + (currentAlbum.description || ""));
-        text("albumCount", 1); text("photoCount", photos.length); text("latestUpdate", photos[0] ? smartDate(photos[0].updatedAt) : "--");
-        renderFeature({title:currentAlbum.title, dateText:currentAlbum.dateText, description:currentAlbum.description, category:currentAlbum.category, coverUrl: photos[0]?.thumbnailUrl, photoCount: photos.length});
-        render();
-      }catch(err){ showError(err.message) }
-    }
-
-    async function getJson(url){ const res = await fetch(url); return await res.json(); }
-
-    function render(){ mode === "albums" ? renderAlbums() : renderPhotos(); }
-    function renderAlbums(){
-      const key = document.getElementById("search").value.trim().toLowerCase(); const sort = document.getElementById("sort").value;
-      let list = albums.filter(a => activeCategory === "全部相簿" || a.category === activeCategory);
-      if(key) list = list.filter(a => [a.title,a.category,a.description,a.dateText].join(" ").toLowerCase().includes(key));
-      if(sort==="newest") list.sort((a,b)=>new Date(b.latestUpdated||0)-new Date(a.latestUpdated||0)); else if(sort==="oldest") list.sort((a,b)=>new Date(a.latestUpdated||0)-new Date(b.latestUpdated||0)); else list.sort((a,b)=>Number(a.sortOrder||999)-Number(b.sortOrder||999));
-      text("status", list.length ? `已載入 ${list.length} 個相簿` : "暫時未有相簿");
-      const g=document.getElementById("gallery"); g.className="grid";
-      g.innerHTML = list.length ? list.map(albumCard).join("") : `<div class="empty"><strong>暫時未有相簿</strong><br>請在 Google Sheet 的 Albums 工作頁新增資料，並將 published 設為 TRUE。</div>`;
-    }
-    function renderPhotos(){
-      const key = document.getElementById("search").value.trim().toLowerCase(); const sort = document.getElementById("sort").value;
-      let list = [...photos]; if(key) list = list.filter(p => String(p.name||"").toLowerCase().includes(key));
-      list.sort((a,b)=> sort==="oldest" ? new Date(a.updatedAt||a.createdAt||0)-new Date(b.updatedAt||b.createdAt||0) : new Date(b.updatedAt||b.createdAt||0)-new Date(a.updatedAt||a.createdAt||0));
-      text("status", list.length ? `已載入 ${list.length} 張相片` : "暫時未有相片");
-      const g=document.getElementById("gallery"); g.className="photo-grid";
-      g.innerHTML = list.length ? list.map(photoCard).join("") : `<div class="empty"><strong>暫時未有相片</strong><br>請把 JPG / PNG 相片放入此活動的 Google Drive Folder。</div>`;
-    }
-    function albumCard(a){ return `<article class="card"><a href="/?album=${encodeURIComponent(a.id)}"><div class="cover"><img src="${escAttr(a.coverUrl||fallbackImage)}" alt="${escAttr(a.title)}"><span class="tag">${esc(a.category||"活動")}</span></div><div class="card-body"><div class="card-title">${esc(a.title)}</div><div class="card-desc">${esc(a.description||"活動相片紀錄")}</div><div class="card-meta"><span>${esc(a.dateText||"日期待定")}</span><span>${Number(a.photoCount||0)} 張相片</span></div></div></a></article>` }
-    function photoCard(p){ const tag=currentAlbum?.category||"活動"; return `<article class="card photo"><a href="${escAttr(p.viewUrl||'#')}" target="_blank" rel="noopener"><div class="cover"><img src="${escAttr(p.thumbnailUrl||fallbackImage)}" alt="${escAttr(p.name||'相片')}"><span class="tag">${esc(tag)}</span></div><div class="card-body"><div class="card-title">${esc(currentAlbum?.title||'活動相片')}</div><div class="card-desc">${esc(p.name||'未命名相片')}</div><div class="card-meta"><span>${dateText(p.updatedAt||p.createdAt)}</span><span>開啟原圖</span></div></div></a></article>` }
-    function renderFeature(a){
-      const f=document.getElementById("featureCard");
-      if(!a){ f.innerHTML=`<img src="${fallbackImage}" alt="相簿封面"><div class="feature-content"><div class="badge">精選相簿</div><div class="feature-title">尚計劃活動相片集</div><div class="feature-meta">等待新增活動相簿</div><div class="feature-pill">相片 0 張</div></div>`; return; }
-      f.innerHTML=`<img src="${escAttr(a.coverUrl||fallbackImage)}" alt="${escAttr(a.title)}"><div class="feature-content"><div class="badge">精選相簿</div><div class="feature-title">${esc(a.title||'尚計劃活動相片集')}</div><div class="feature-meta">📅 ${esc(a.dateText||'日期待定')}</div><div class="feature-pill">相片 ${Number(a.photoCount||0)} 張</div></div>`;
-    }
-    function showError(msg){ document.getElementById("gallery").className="grid"; document.getElementById("gallery").innerHTML=`<div class="error"><strong>載入失敗</strong><br>${esc(msg)}</div>`; text("status","請檢查 Google Sheet、Apps Script 及 Netlify 設定。"); renderFeature(null); }
-    function text(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
-    function dateText(v){ if(!v) return "日期待定"; const d=new Date(v); return isNaN(d)?"日期待定":d.toLocaleDateString("zh-HK",{year:"numeric",month:"long",day:"numeric"}); }
-    function smartDate(v){ if(!v) return "--"; const d=new Date(v), n=new Date(); if(!isNaN(d)&&d.toDateString()===n.toDateString()) return "今天"; return isNaN(d)?"--":d.toLocaleDateString("zh-HK",{month:"short",day:"numeric"}); }
-    function esc(s){ return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
-    function escAttr(s){ return esc(s).replaceAll("`","&#096;"); }
+    function init(){text("schoolZh",CONFIG.schoolNameZh||"香海正覺蓮社佛教普光學校");text("schoolEn",CONFIG.schoolNameEn||"HHCLKA Buddhist Po Kwong School");text("siteTitle",CONFIG.siteTitle||"尚計劃活動相片集");text("siteSubtitle",CONFIG.siteSubtitle||"記錄學生參與尚銀行、網尚店、工作體驗及校園服務的學習歷程。");text("footerSchool",(CONFIG.schoolNameZh||"香海正覺蓮社佛教普光學校")+"｜"+(CONFIG.schoolNameEn||"HHCLKA Buddhist Po Kwong School"));text("footerText",CONFIG.footerText||"HHCLKA Buddhist Po Kwong School");renderChips();document.getElementById("search").addEventListener("input",render);document.getElementById("sort").addEventListener("change",render);document.getElementById("latestBtn").addEventListener("click",()=>document.getElementById("gallery").scrollIntoView({behavior:"smooth"}));const albumId=new URLSearchParams(location.search).get("album");albumId?loadAlbum(albumId):loadAlbums();}
+    function renderChips(){const cats=CONFIG.categories||["全部相簿","尚銀行","網尚店","工作體驗","校園服務","其他"];document.getElementById("chips").innerHTML=cats.map((c,i)=>`<button class="chip ${i===0?'active':''}" data-cat="${escAttr(c)}">${esc(c)}</button>`).join("");document.getElementById("chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;activeCategory=b.dataset.cat;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");render();};}
+    async function loadAlbums(){mode="albums";document.getElementById("backBtn").style.display="none";text("sectionTitle","最新活動相簿");text("sectionSub","每個活動相簿連接一個 Google Drive Folder，方便日後持續新增活動。");try{const data=await getJson("albums");if(!data.ok)throw new Error(data.error||"API 回傳錯誤");albums=Array.isArray(data.albums)?data.albums:[];text("albumCount",albums.length);text("photoCount",albums.reduce((s,a)=>s+Number(a.photoCount||0),0));const latest=[...albums].sort((a,b)=>new Date(b.latestUpdated||0)-new Date(a.latestUpdated||0))[0];text("latestUpdate",latest?smartDate(latest.latestUpdated):"--");renderFeature(albums.find(a=>String(a.featured).toUpperCase()==="TRUE")||albums[0]);render();}catch(err){showError(err.message+"。請確認 Apps Script 已更新為公開 read-only 版本，並已設定 ALBUM_SHEET_ID。")}}
+    async function loadAlbum(albumId){mode="photos";document.getElementById("backBtn").style.display="inline-flex";try{const data=await getJson("photos",{albumId});if(!data.ok)throw new Error(data.error||"API 回傳錯誤");currentAlbum=data.album||{title:"活動相簿",category:"其他"};photos=Array.isArray(data.photos)?data.photos:[];text("sectionTitle",currentAlbum.title||"活動相簿");text("sectionSub",(currentAlbum.dateText||"")+"　"+(currentAlbum.description||""));text("albumCount",1);text("photoCount",photos.length);text("latestUpdate",photos[0]?smartDate(photos[0].updatedAt):"--");renderFeature({title:currentAlbum.title,dateText:currentAlbum.dateText,description:currentAlbum.description,category:currentAlbum.category,coverUrl:photos[0]?.thumbnailUrl,photoCount:photos.length});render();}catch(err){showError(err.message)}}
+    function buildApiUrl(action, extra={}){if(CONFIG.apiBaseUrl){const p=new URLSearchParams({action,...extra});return CONFIG.apiBaseUrl+"?"+p.toString();}const p=new URLSearchParams({action,...extra});return "./api?"+p.toString();}
+    function getJson(action, extra={}){const url=buildApiUrl(action,extra);if(CONFIG.apiMode==="jsonp")return jsonp(url);return fetch(url).then(r=>r.json());}
+    function jsonp(url){return new Promise((resolve,reject)=>{const cb="jsonp_cb_"+Date.now()+"_"+Math.random().toString(36).slice(2);const s=document.createElement("script");const join=url.includes("?")?"&":"?";window[cb]=data=>{delete window[cb];s.remove();resolve(data);};s.onerror=()=>{delete window[cb];s.remove();reject(new Error("Apps Script JSONP 載入失敗"));};s.src=url+join+"callback="+encodeURIComponent(cb);document.body.appendChild(s);});}
+    function render(){mode==="albums"?renderAlbums():renderPhotos();}
+    function renderAlbums(){const key=document.getElementById("search").value.trim().toLowerCase(),sort=document.getElementById("sort").value;let list=albums.filter(a=>activeCategory==="全部相簿"||a.category===activeCategory);if(key)list=list.filter(a=>[a.title,a.category,a.description,a.dateText].join(" ").toLowerCase().includes(key));if(sort==="newest")list.sort((a,b)=>new Date(b.latestUpdated||0)-new Date(a.latestUpdated||0));else if(sort==="oldest")list.sort((a,b)=>new Date(a.latestUpdated||0)-new Date(b.latestUpdated||0));else list.sort((a,b)=>Number(a.sortOrder||999)-Number(b.sortOrder||999));text("status",list.length?`已載入 ${list.length} 個相簿`:"暫時未有相簿");const g=document.getElementById("gallery");g.className="grid";g.innerHTML=list.length?list.map(albumCard).join(""):`<div class="empty"><strong>暫時未有相簿</strong><br>請在 Google Sheet 的 Albums 工作頁新增資料，並將 published 設為 TRUE。</div>`;}
+    function renderPhotos(){const key=document.getElementById("search").value.trim().toLowerCase(),sort=document.getElementById("sort").value;let list=[...photos];if(key)list=list.filter(p=>String(p.name||"").toLowerCase().includes(key));list.sort((a,b)=>sort==="oldest"?new Date(a.updatedAt||a.createdAt||0)-new Date(b.updatedAt||b.createdAt||0):new Date(b.updatedAt||b.createdAt||0)-new Date(a.updatedAt||a.createdAt||0));text("status",list.length?`已載入 ${list.length} 張相片`:"暫時未有相片");const g=document.getElementById("gallery");g.className="photo-grid";g.innerHTML=list.length?list.map(photoCard).join(""):`<div class="empty"><strong>暫時未有相片</strong><br>請把 JPG / PNG 相片放入此活動的 Google Drive Folder。</div>`;}
+    function albumCard(a){return `<article class="card"><a href="?album=${encodeURIComponent(a.id)}"><div class="cover"><img src="${escAttr(a.coverUrl||fallbackImage)}" alt="${escAttr(a.title)}"><span class="tag">${esc(a.category||"活動")}</span></div><div class="card-body"><div class="card-title">${esc(a.title)}</div><div class="card-desc">${esc(a.description||"活動相片紀錄")}</div><div class="card-meta"><span>${esc(a.dateText||"日期待定")}</span><span>${Number(a.photoCount||0)} 張相片</span></div></div></a></article>`}
+    function photoCard(p){const tag=currentAlbum?.category||"活動";return `<article class="card photo"><a href="${escAttr(p.viewUrl||'#')}" target="_blank" rel="noopener"><div class="cover"><img src="${escAttr(p.thumbnailUrl||fallbackImage)}" alt="${escAttr(p.name||'相片')}"><span class="tag">${esc(tag)}</span></div><div class="card-body"><div class="card-title">${esc(currentAlbum?.title||'活動相片')}</div><div class="card-desc">${esc(p.name||'未命名相片')}</div><div class="card-meta"><span>${dateText(p.updatedAt||p.createdAt)}</span><span>開啟原圖</span></div></div></a></article>`}
+    function renderFeature(a){const f=document.getElementById("featureCard");if(!a){f.innerHTML=`<img src="${fallbackImage}" alt="相簿封面"><div class="feature-content"><div class="badge">精選相簿</div><div class="feature-title">尚計劃活動相片集</div><div class="feature-meta">等待新增活動相簿</div><div class="feature-pill">相片 0 張</div></div>`;return;}f.innerHTML=`<img src="${escAttr(a.coverUrl||fallbackImage)}" alt="${escAttr(a.title)}"><div class="feature-content"><div class="badge">精選相簿</div><div class="feature-title">${esc(a.title||'尚計劃活動相片集')}</div><div class="feature-meta">📅 ${esc(a.dateText||'日期待定')}</div><div class="feature-pill">相片 ${Number(a.photoCount||0)} 張</div></div>`;}
+    function showError(msg){document.getElementById("gallery").className="grid";document.getElementById("gallery").innerHTML=`<div class="error"><strong>載入失敗</strong><br>${esc(msg)}</div>`;text("status","請檢查 Google Sheet 及 Apps Script 設定。");renderFeature(null)}
+    function text(id,v){const el=document.getElementById(id);if(el)el.textContent=v}function dateText(v){if(!v)return"日期待定";const d=new Date(v);return isNaN(d)?"日期待定":d.toLocaleDateString("zh-HK",{year:"numeric",month:"long",day:"numeric"})}function smartDate(v){if(!v)return"--";const d=new Date(v),n=new Date();if(!isNaN(d)&&d.toDateString()===n.toDateString())return"今天";return isNaN(d)?"--":d.toLocaleDateString("zh-HK",{month:"short",day:"numeric"})}function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}function escAttr(s){return esc(s).replaceAll("`","&#096;")}
   </script>
 </body>
 </html>
