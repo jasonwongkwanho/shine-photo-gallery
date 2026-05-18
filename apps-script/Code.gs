@@ -1,39 +1,35 @@
 function doGet(e) {
-  const token = e.parameter.token || "";
+  e = e || { parameter: {} };
+
   const action = e.parameter.action || "albums";
-
-  const expectedToken = PropertiesService
-    .getScriptProperties()
-    .getProperty("API_SECRET");
-
-  if (token !== expectedToken) {
-    return jsonOutput({ ok: false, error: "Unauthorized" });
-  }
+  const publicReadActions = ["albums", "photos", "latest", "list"];
 
   try {
+    // GitHub Pages 版本：只開放公開 read-only action，不需要 token。
+    // 注意：不要在前台放 API_SECRET。所有寫入／刪除功能日後才需要 token 保護。
+    if (!publicReadActions.includes(action)) {
+      return jsonOutput_({ ok: false, error: "Unknown action" }, e);
+    }
+
     if (action === "albums") {
-      return listAlbums();
+      return jsonOutput_(getAlbumsData_(), e);
     }
 
     if (action === "photos") {
-      return listPhotosByAlbum(e.parameter.albumId);
+      return jsonOutput_(getPhotosByAlbumData_(e.parameter.albumId), e);
     }
 
-    if (action === "latest") {
-      return listLatestPhotos(e.parameter.limit || 24);
+    if (action === "latest" || action === "list") {
+      return jsonOutput_(getLatestPhotosData_(e.parameter.limit || 24), e);
     }
 
-    if (action === "list") {
-      return listLatestPhotos(e.parameter.limit || 24);
-    }
-
-    return jsonOutput({ ok: false, error: "Unknown action" });
+    return jsonOutput_({ ok: false, error: "Unknown action" }, e);
   } catch (error) {
-    return jsonOutput({ ok: false, error: error.message });
+    return jsonOutput_({ ok: false, error: error.message }, e);
   }
 }
 
-function listAlbums() {
+function getAlbumsData_() {
   const albums = getPublishedAlbums_();
 
   const result = albums.map(function(album) {
@@ -65,12 +61,12 @@ function listAlbums() {
     return Number(a.sortOrder || 999) - Number(b.sortOrder || 999);
   });
 
-  return jsonOutput({ ok: true, count: result.length, albums: result });
+  return { ok: true, count: result.length, albums: result };
 }
 
-function listPhotosByAlbum(albumId) {
+function getPhotosByAlbumData_(albumId) {
   if (!albumId) {
-    return jsonOutput({ ok: false, error: "Missing albumId" });
+    return { ok: false, error: "Missing albumId" };
   }
 
   const albums = getPublishedAlbums_();
@@ -79,12 +75,12 @@ function listPhotosByAlbum(albumId) {
   });
 
   if (!album) {
-    return jsonOutput({ ok: false, error: "Album not found" });
+    return { ok: false, error: "Album not found" };
   }
 
   const photos = getImagesFromFolder_(album.folderId);
 
-  return jsonOutput({
+  return {
     ok: true,
     album: {
       id: album.albumId,
@@ -96,10 +92,10 @@ function listPhotosByAlbum(albumId) {
     },
     count: photos.length,
     photos: photos
-  });
+  };
 }
 
-function listLatestPhotos(limit) {
+function getLatestPhotosData_(limit) {
   const albums = getPublishedAlbums_();
   let allPhotos = [];
 
@@ -121,11 +117,11 @@ function listLatestPhotos(limit) {
 
   const max = Math.max(1, Number(limit) || 24);
 
-  return jsonOutput({
+  return {
     ok: true,
     count: allPhotos.length,
     photos: allPhotos.slice(0, max)
-  });
+  };
 }
 
 function getPublishedAlbums_() {
@@ -229,8 +225,34 @@ function makeThumbnailUrl_(fileId) {
   return "https://drive.google.com/thumbnail?id=" + fileId + "&sz=w1200";
 }
 
-function jsonOutput(data) {
+function jsonOutput_(data, e) {
+  const json = JSON.stringify(data);
+  const callback = e && e.parameter ? String(e.parameter.callback || "") : "";
+
+  if (callback && isValidCallbackName_(callback)) {
+    return ContentService
+      .createTextOutput(callback + "(" + json + ");")
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
   return ContentService
-    .createTextOutput(JSON.stringify(data))
+    .createTextOutput(json)
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function isValidCallbackName_(name) {
+  return /^[A-Za-z_$][0-9A-Za-z_$]*(\.[A-Za-z_$][0-9A-Za-z_$]*)*$/.test(name);
+}
+
+function authorizeSetup() {
+  const props = PropertiesService.getScriptProperties();
+  const sheetId = props.getProperty("ALBUM_SHEET_ID");
+  const sheetName = props.getProperty("ALBUM_SHEET_NAME") || "Albums";
+
+  const ss = SpreadsheetApp.openById(sheetId);
+  const sheet = ss.getSheetByName(sheetName);
+  const values = sheet.getDataRange().getValues();
+
+  Logger.log("Sheet name: " + sheet.getName());
+  Logger.log("Rows: " + values.length);
 }
