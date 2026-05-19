@@ -6,34 +6,825 @@
   <title>尚計劃活動相片集</title>
   <script src="./config.js"></script>
   <style>
-    :root{--blue:#1557d6;--deep:#0f3f9c;--teal:#18b7a6;--bg:#f5f9ff;--text:#172033;--muted:#667085;--line:#e3eaf5;--card:#fff;--shadow:0 14px 34px rgba(15,35,80,.12);--soft:0 8px 22px rgba(15,35,80,.08);--radius:22px}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text)}a{text-decoration:none;color:inherit}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topbar-inner{max-width:1220px;margin:auto;padding:14px 22px;display:flex;align-items:center;gap:22px}.brand{display:flex;align-items:center;gap:12px;min-width:310px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--blue),var(--teal));display:grid;place-items:center;color:#fff;font-weight:900;box-shadow:var(--soft)}.brand-zh{font-weight:900;font-size:16px;line-height:1.2}.brand-en{font-size:12px;color:var(--muted);margin-top:2px}.nav{display:flex;gap:22px;justify-content:center;flex:1;font-size:14px;font-weight:800;color:#344054}.nav a.active{color:var(--blue)}.tools{display:flex;gap:10px}.search{height:42px;width:260px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:0 14px;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,.04)}.search input{border:0;outline:0;width:100%;font-size:14px}.btn{height:42px;border:0;border-radius:14px;padding:0 16px;font-weight:900;cursor:pointer}.btn-primary{background:linear-gradient(135deg,var(--blue),#2563eb);color:#fff;box-shadow:0 10px 20px rgba(21,87,214,.25)}.btn-light{background:#fff;color:var(--blue);border:1px solid #c8d8ff}.hero{background:radial-gradient(circle at 82% 22%,rgba(24,183,166,.13),transparent 30%),linear-gradient(180deg,#ecf6ff,#fff);border-bottom:1px solid var(--line)}.hero-inner{max-width:1220px;margin:auto;padding:42px 22px 32px;display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}.eyebrow{display:inline-flex;padding:8px 13px;background:#fff;border:1px solid var(--line);border-radius:999px;color:var(--deep);font-weight:900;font-size:13px;box-shadow:var(--soft)}h1{margin:16px 0 12px;color:var(--deep);font-size:clamp(34px,5vw,54px);letter-spacing:.06em;line-height:1.08}.subtitle{font-size:17px;color:var(--muted);line-height:1.7;max-width:720px;margin:0 0 20px}.chips{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-weight:900;color:#344054;cursor:pointer;box-shadow:0 5px 14px rgba(0,0,0,.05)}.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}.stats{display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--soft);max-width:620px;overflow:hidden}.stat{padding:20px 22px;display:flex;align-items:center;gap:12px}.stat+.stat{border-left:1px solid var(--line)}.stat-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:#e8f2ff;font-size:22px}.stat:nth-child(2) .stat-icon{background:#e4fbf7}.stat:nth-child(3) .stat-icon{background:#fff2df}.stat-label{font-size:13px;color:var(--muted);font-weight:800}.stat-value{font-size:24px;font-weight:950;margin-top:3px}.feature{min-height:280px;border-radius:28px;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--blue),#0f172a);border:4px solid rgba(255,255,255,.9);box-shadow:var(--shadow)}.feature img{width:100%;height:100%;min-height:280px;object-fit:cover;display:block;opacity:.9}.feature:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,.7),transparent 75%),linear-gradient(0deg,rgba(15,23,42,.58),transparent 55%)}.feature-content{position:absolute;z-index:2;inset:0;padding:26px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end}.badge{position:absolute;top:22px;left:22px;background:rgba(21,87,214,.95);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:950}.feature-title{font-size:30px;font-weight:950}.feature-meta{font-size:14px;opacity:.92;margin-top:8px}.feature-pill{margin-top:10px;align-self:flex-start;border:1px solid rgba(255,255,255,.45);background:rgba(15,23,42,.38);border-radius:999px;padding:6px 11px;font-weight:900;font-size:13px}main{max-width:1220px;margin:auto;padding:34px 22px 54px}.section-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:16px}.section-title{font-size:26px;color:var(--deep);font-weight:950;letter-spacing:.04em}.section-sub{color:var(--muted);font-size:14px;margin-top:5px}.controls{display:flex;gap:10px}select{height:42px;border:1px solid #cbd8ea;background:#fff;border-radius:13px;padding:0 12px;font-weight:800;color:#344054}.status{color:var(--muted);font-weight:800;min-height:28px;margin:12px 0 20px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--soft);transition:.18s}.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.cover{height:195px;background:#e6f0ff;position:relative;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover;display:block;transition:.3s}.card:hover img{transform:scale(1.04)}.tag{position:absolute;right:12px;bottom:12px;background:rgba(239,246,255,.94);color:var(--blue);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:950}.card-body{padding:16px}.card-title{font-size:18px;font-weight:950;line-height:1.35}.card-desc{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.55;min-height:40px}.card-meta{margin-top:12px;display:flex;justify-content:space-between;gap:10px;color:#64748b;font-size:13px;font-weight:850}.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.photo .cover{height:172px}.back{display:inline-flex;margin-bottom:18px}.empty,.error{grid-column:1/-1;background:#fff;border:1px dashed #cbd5e1;border-radius:var(--radius);padding:42px 24px;text-align:center;color:var(--muted);box-shadow:var(--soft)}.error{color:#b42318;background:#fff7f7;border-color:#ffcaca}.skeleton{height:280px;border-radius:var(--radius);background:linear-gradient(90deg,#e8eef7,#fff,#e8eef7);background-size:200% 100%;animation:shimmer 1.1s infinite}@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}footer{background:#fff;border-top:1px solid var(--line)}.footer-inner{max-width:1220px;margin:auto;padding:24px 22px;display:flex;justify-content:space-between;gap:18px;color:var(--muted);font-size:13px}.footer-brand{font-weight:900;color:#344054}@media(max-width:1020px){.nav{display:none}.hero-inner{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.photo-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:720px){.topbar-inner{flex-wrap:wrap;padding:14px 16px}.brand{min-width:100%}.tools{width:100%}.search{flex:1;width:auto}.hero-inner{padding:30px 16px 24px}.stats{grid-template-columns:1fr}.stat+.stat{border-left:0;border-top:1px solid var(--line)}main{padding:28px 16px 44px}.section-head{flex-direction:column;align-items:flex-start}.grid,.photo-grid{grid-template-columns:1fr}.cover,.photo .cover{height:220px}.footer-inner{flex-direction:column}}
+    :root {
+      --ink: #111827;
+      --navy: #0c2344;
+      --muted: #667085;
+      --soft: #f5f6f8;
+      --line: #e7e9ee;
+      --white: #ffffff;
+      --accent: #174ea6;
+      --gold: #b4935a;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.10);
+      --soft-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .site-header {
+      height: 78px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      max-width: 1240px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(12,35,68,.18);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #fff;
+      flex: 0 0 auto;
+      box-shadow: 0 8px 20px rgba(12,35,68,.08);
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 3px;
+    }
+
+    .brand-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      line-height: 1.25;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      margin-top: 2px;
+      font-size: 12px;
+      color: #667085;
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-mini {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--navy);
+      box-shadow: 0 8px 18px rgba(15,23,42,.05);
+    }
+
+    .browse-btn {
+      height: 42px;
+      border: 1px solid rgba(12,35,68,.12);
+      background: var(--navy);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0 18px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 12px 22px rgba(12,35,68,.16);
+    }
+
+    .hero {
+      min-height: 430px;
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      background: #101827;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(90deg, rgba(8,18,33,.84), rgba(8,18,33,.48), rgba(8,18,33,.18)),
+        var(--hero-image);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 74px 28px 64px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+      color: #fff;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,.72);
+      letter-spacing: .34em;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 48px;
+      height: 1px;
+      background: rgba(255,255,255,.65);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", "Noto Serif TC", serif;
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 1.08;
+      letter-spacing: .06em;
+      font-weight: 500;
+    }
+
+    .hero-copy p {
+      margin: 24px 0 30px;
+      font-size: 18px;
+      line-height: 1.9;
+      color: rgba(255,255,255,.82);
+      max-width: 620px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 46px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.45);
+      color: #fff;
+      background: rgba(255,255,255,.10);
+      backdrop-filter: blur(8px);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .toolbar {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 28px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .filters {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter {
+      border: 0;
+      background: transparent;
+      padding: 8px 2px;
+      color: #475467;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .filter.active { color: var(--navy); }
+    .filter.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--navy);
+    }
+
+    .meta-line {
+      color: #667085;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .content {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 42px 28px 58px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .section-title {
+      font-family: Georgia, "Times New Roman", "Noto Serif TC", serif;
+      font-size: 34px;
+      letter-spacing: .05em;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .section-subtitle {
+      margin-top: 7px;
+      color: #667085;
+      font-size: 15px;
+    }
+
+    .search-panel {
+      min-width: 280px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      background: #fff;
+    }
+
+    .search-panel input {
+      border: 0;
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .status {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .album-card {
+      grid-column: span 4;
+      background: #fff;
+      border: 1px solid #eceff4;
+      box-shadow: 0 12px 30px rgba(15,23,42,.07);
+      transition: transform .22s ease, box-shadow .22s ease;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .album-card:nth-child(1) { grid-column: span 5; }
+    .album-card:nth-child(2) { grid-column: span 4; }
+    .album-card:nth-child(3) { grid-column: span 3; }
+    .album-card:nth-child(4) { grid-column: span 4; }
+    .album-card:nth-child(5) { grid-column: span 5; }
+    .album-card:nth-child(6) { grid-column: span 3; }
+
+    .album-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .album-cover {
+      height: 260px;
+      overflow: hidden;
+      background: #e9edf3;
+      position: relative;
+    }
+
+    .album-card:nth-child(1) .album-cover { height: 330px; }
+    .album-card:nth-child(3) .album-cover { height: 330px; }
+    .album-card:nth-child(5) .album-cover { height: 300px; }
+
+    .album-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .36s ease;
+    }
+
+    .album-card:hover .album-cover img { transform: scale(1.04); }
+
+    .album-body {
+      padding: 18px 20px 20px;
+    }
+
+    .album-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+
+    .album-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .album-desc {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .album-meta {
+      color: #667085;
+      font-size: 13px;
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .photo-card {
+      background: #fff;
+      border: 1px solid #eceff4;
+      box-shadow: 0 10px 24px rgba(15,23,42,.07);
+      overflow: hidden;
+      transition: .22s ease;
+    }
+
+    .photo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .photo-cover { height: 220px; background: #e9edf3; overflow: hidden; }
+    .photo-cover img { width: 100%; height: 100%; object-fit: cover; transition: .36s ease; }
+    .photo-card:hover img { transform: scale(1.04); }
+    .photo-body { padding: 14px 16px 16px; }
+    .photo-title { font-weight: 700; color: var(--ink); line-height: 1.35; }
+    .photo-meta { margin-top: 7px; color: #667085; font-size: 13px; }
+
+    .back-btn {
+      display: none;
+      margin-bottom: 24px;
+      width: max-content;
+      color: var(--navy);
+      font-weight: 700;
+      border-bottom: 1px solid var(--navy);
+      padding-bottom: 4px;
+    }
+
+    .empty, .error {
+      grid-column: 1 / -1;
+      padding: 50px 24px;
+      text-align: center;
+      background: #fafbfc;
+      border: 1px dashed #d0d5dd;
+      color: #667085;
+    }
+
+    .error { color: #b42318; background: #fff7f7; border-color: #fecdca; }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: #667085;
+      font-size: 13px;
+    }
+
+    .footer-brand { font-weight: 700; color: var(--navy); }
+
+    @media (max-width: 980px) {
+      .toolbar, .section-head, .footer-inner { flex-direction: column; align-items: flex-start; }
+      .meta-line { white-space: normal; }
+      .album-card, .album-card:nth-child(n) { grid-column: span 6; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .site-header { height: auto; }
+      .header-inner { padding: 14px 18px; flex-wrap: wrap; }
+      .brand-title { white-space: normal; font-size: 14px; }
+      .brand-subtitle { white-space: normal; }
+      .hero { min-height: 420px; }
+      .hero-inner { padding: 58px 20px 48px; }
+      h1 { font-size: 44px; }
+      .toolbar, .content { padding-left: 20px; padding-right: 20px; }
+      .album-card, .album-card:nth-child(n) { grid-column: 1 / -1; }
+      .photo-grid { grid-template-columns: 1fr; }
+      .search-panel { width: 100%; min-width: 0; }
+    }
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="topbar-inner"><a class="brand" href="./"><div class="logo">普</div><div><div class="brand-zh" id="schoolZh"></div><div class="brand-en" id="schoolEn"></div></div></a><nav class="nav"><a href="./">首頁</a><a class="active" href="./">相簿瀏覽</a><a href="#gallery">活動相片</a><a href="#">關於尚計劃</a></nav><div class="tools"><label class="search">🔍<input id="search" type="search" placeholder="搜尋相簿或相片..." /></label><button class="btn btn-primary" id="latestBtn">📷 最新</button></div></div></header>
-  <section class="hero"><div class="hero-inner"><div><div class="eyebrow">✨ 尚計劃｜活動紀錄</div><h1 id="siteTitle"></h1><p class="subtitle" id="siteSubtitle"></p><div class="chips" id="chips"></div><div class="stats"><div class="stat"><div class="stat-icon">📘</div><div><div class="stat-label">活動相簿</div><div class="stat-value" id="albumCount">0</div></div></div><div class="stat"><div class="stat-icon">🖼️</div><div><div class="stat-label">相片總數</div><div class="stat-value" id="photoCount">0</div></div></div><div class="stat"><div class="stat-icon">🕘</div><div><div class="stat-label">最近更新</div><div class="stat-value" id="latestUpdate">--</div></div></div></div></div><article class="feature" id="featureCard"></article></div></section>
-  <main><a class="btn btn-light back" id="backBtn" href="./" style="display:none">← 返回所有相簿</a><div class="section-head"><div><div class="section-title" id="sectionTitle">最新活動相簿</div><div class="section-sub" id="sectionSub">以 Google Sheet 管理活動資料，每個相簿連接一個 Drive Folder。</div></div><div class="controls"><select id="sort"><option value="sortOrder">排序：自訂</option><option value="newest">排序：最新</option><option value="oldest">排序：最舊</option></select></div></div><div class="status" id="status">正在載入...</div><section id="gallery" class="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></section></main>
-  <footer><div class="footer-inner"><div><div class="footer-brand" id="footerSchool"></div><div id="footerText"></div></div><div>私隱政策 ｜ 使用條款 ｜ 聯絡我們</div></div></footer>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./">
+        <div class="brand-mark" id="brandMark"></div>
+        <div>
+          <div class="brand-title" id="schoolZh"></div>
+          <div class="brand-subtitle" id="schoolEn"></div>
+        </div>
+      </a>
+      <div class="header-actions">
+        <button class="search-mini" id="focusSearch" aria-label="搜尋">⌕</button>
+        <button class="browse-btn" id="browseBtn">▣ 瀏覽相簿</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">記錄成長・見證學習・連繫社群</div>
+        <h1 id="siteTitle"></h1>
+        <p id="siteSubtitle"></p>
+        <button class="hero-cta" id="heroCta">探索活動相簿 →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="toolbar">
+    <div class="filters" id="filters"></div>
+    <div class="meta-line" id="metaLine">正在整理相簿資料...</div>
+  </section>
+
+  <main class="content" id="galleryArea">
+    <a class="back-btn" id="backBtn" href="./">返回所有相簿</a>
+    <div class="section-head">
+      <div>
+        <div class="section-title" id="sectionTitle">最新活動相簿</div>
+        <div class="section-subtitle" id="sectionSubtitle">以影像記錄學生在尚計劃中的真實學習與成長瞬間。</div>
+      </div>
+      <label class="search-panel">
+        <span>⌕</span>
+        <input id="searchInput" type="search" placeholder="搜尋相簿或相片..." />
+      </label>
+    </div>
+    <div class="status" id="status">正在載入...</div>
+    <section class="album-grid" id="grid"></section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand" id="footerSchool"></div>
+        <div id="footerText"></div>
+      </div>
+      <div>© 2026 版權所有</div>
+    </div>
+  </footer>
+
   <script>
     const CONFIG = window.GALLERY_CONFIG || {};
-    const fallbackImage = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='760'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop offset='0' stop-color='#1557d6'/><stop offset='1' stop-color='#18b7a6'/></linearGradient></defs><rect width='1200' height='760' fill='url(#g)'/><circle cx='930' cy='170' r='120' fill='rgba(255,255,255,.17)'/><text x='80' y='360' fill='white' font-size='72' font-family='Arial' font-weight='800'>尚計劃活動相簿</text><text x='85' y='430' fill='rgba(255,255,255,.86)' font-size='34' font-family='Arial'>Shine Plan Photo Albums</text></svg>`);
-    let albums = [], photos = [], activeCategory = "全部相簿", mode = "albums", currentAlbum = null;
+    const cameraFallback = "url('data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#2f3f55"/></linearGradient></defs><rect width="1600" height="760" fill="url(#g)"/><circle cx="1160" cy="300" r="170" fill="rgba(255,255,255,.10)"/><circle cx="1160" cy="300" r="92" fill="rgba(255,255,255,.13)"/><rect x="1010" y="190" width="300" height="220" rx="28" fill="rgba(255,255,255,.12)"/><rect x="150" y="520" width="430" height="14" rx="7" fill="rgba(255,255,255,.18)"/><rect x="180" y="560" width="320" height="10" rx="5" fill="rgba(255,255,255,.12)"/></svg>`).replace(/'/g,"%27") + "')";
+
+    let albums = [];
+    let photos = [];
+    let mode = "albums";
+    let currentAlbum = null;
+    let activeCategory = "全部相簿";
+
     init();
-    function init(){text("schoolZh",CONFIG.schoolNameZh||"香海正覺蓮社佛教普光學校");text("schoolEn",CONFIG.schoolNameEn||"HHCLKA Buddhist Po Kwong School");text("siteTitle",CONFIG.siteTitle||"尚計劃活動相片集");text("siteSubtitle",CONFIG.siteSubtitle||"記錄學生參與尚銀行、網尚店、工作體驗及校園服務的學習歷程。");text("footerSchool",(CONFIG.schoolNameZh||"香海正覺蓮社佛教普光學校")+"｜"+(CONFIG.schoolNameEn||"HHCLKA Buddhist Po Kwong School"));text("footerText",CONFIG.footerText||"HHCLKA Buddhist Po Kwong School");renderChips();document.getElementById("search").addEventListener("input",render);document.getElementById("sort").addEventListener("change",render);document.getElementById("latestBtn").addEventListener("click",()=>document.getElementById("gallery").scrollIntoView({behavior:"smooth"}));const albumId=new URLSearchParams(location.search).get("album");albumId?loadAlbum(albumId):loadAlbums();}
-    function renderChips(){const cats=CONFIG.categories||["全部相簿","尚銀行","網尚店","工作體驗","校園服務","其他"];document.getElementById("chips").innerHTML=cats.map((c,i)=>`<button class="chip ${i===0?'active':''}" data-cat="${escAttr(c)}">${esc(c)}</button>`).join("");document.getElementById("chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;activeCategory=b.dataset.cat;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");render();};}
-    async function loadAlbums(){mode="albums";document.getElementById("backBtn").style.display="none";text("sectionTitle","最新活動相簿");text("sectionSub","每個活動相簿連接一個 Google Drive Folder，方便日後持續新增活動。");try{const data=await getJson("albums");if(!data.ok)throw new Error(data.error||"API 回傳錯誤");albums=Array.isArray(data.albums)?data.albums:[];text("albumCount",albums.length);text("photoCount",albums.reduce((s,a)=>s+Number(a.photoCount||0),0));const latest=[...albums].sort((a,b)=>new Date(b.latestUpdated||0)-new Date(a.latestUpdated||0))[0];text("latestUpdate",latest?smartDate(latest.latestUpdated):"--");renderFeature(albums.find(a=>String(a.featured).toUpperCase()==="TRUE")||albums[0]);render();}catch(err){showError(err.message+"。請確認 Apps Script 已更新為公開 read-only 版本，並已設定 ALBUM_SHEET_ID。")}}
-    async function loadAlbum(albumId){mode="photos";document.getElementById("backBtn").style.display="inline-flex";try{const data=await getJson("photos",{albumId});if(!data.ok)throw new Error(data.error||"API 回傳錯誤");currentAlbum=data.album||{title:"活動相簿",category:"其他"};photos=Array.isArray(data.photos)?data.photos:[];text("sectionTitle",currentAlbum.title||"活動相簿");text("sectionSub",(currentAlbum.dateText||"")+"　"+(currentAlbum.description||""));text("albumCount",1);text("photoCount",photos.length);text("latestUpdate",photos[0]?smartDate(photos[0].updatedAt):"--");renderFeature({title:currentAlbum.title,dateText:currentAlbum.dateText,description:currentAlbum.description,category:currentAlbum.category,coverUrl:photos[0]?.thumbnailUrl,photoCount:photos.length});render();}catch(err){showError(err.message)}}
-    function buildApiUrl(action, extra={}){if(CONFIG.apiBaseUrl){const p=new URLSearchParams({action,...extra});return CONFIG.apiBaseUrl+"?"+p.toString();}const p=new URLSearchParams({action,...extra});return "./api?"+p.toString();}
-    function getJson(action, extra={}){const url=buildApiUrl(action,extra);if(CONFIG.apiMode==="jsonp")return jsonp(url);return fetch(url).then(r=>r.json());}
-    function jsonp(url){return new Promise((resolve,reject)=>{const cb="jsonp_cb_"+Date.now()+"_"+Math.random().toString(36).slice(2);const s=document.createElement("script");const join=url.includes("?")?"&":"?";window[cb]=data=>{delete window[cb];s.remove();resolve(data);};s.onerror=()=>{delete window[cb];s.remove();reject(new Error("Apps Script JSONP 載入失敗"));};s.src=url+join+"callback="+encodeURIComponent(cb);document.body.appendChild(s);});}
-    function render(){mode==="albums"?renderAlbums():renderPhotos();}
-    function renderAlbums(){const key=document.getElementById("search").value.trim().toLowerCase(),sort=document.getElementById("sort").value;let list=albums.filter(a=>activeCategory==="全部相簿"||a.category===activeCategory);if(key)list=list.filter(a=>[a.title,a.category,a.description,a.dateText].join(" ").toLowerCase().includes(key));if(sort==="newest")list.sort((a,b)=>new Date(b.latestUpdated||0)-new Date(a.latestUpdated||0));else if(sort==="oldest")list.sort((a,b)=>new Date(a.latestUpdated||0)-new Date(b.latestUpdated||0));else list.sort((a,b)=>Number(a.sortOrder||999)-Number(b.sortOrder||999));text("status",list.length?`已載入 ${list.length} 個相簿`:"暫時未有相簿");const g=document.getElementById("gallery");g.className="grid";g.innerHTML=list.length?list.map(albumCard).join(""):`<div class="empty"><strong>暫時未有相簿</strong><br>請在 Google Sheet 的 Albums 工作頁新增資料，並將 published 設為 TRUE。</div>`;}
-    function renderPhotos(){const key=document.getElementById("search").value.trim().toLowerCase(),sort=document.getElementById("sort").value;let list=[...photos];if(key)list=list.filter(p=>String(p.name||"").toLowerCase().includes(key));list.sort((a,b)=>sort==="oldest"?new Date(a.updatedAt||a.createdAt||0)-new Date(b.updatedAt||b.createdAt||0):new Date(b.updatedAt||b.createdAt||0)-new Date(a.updatedAt||a.createdAt||0));text("status",list.length?`已載入 ${list.length} 張相片`:"暫時未有相片");const g=document.getElementById("gallery");g.className="photo-grid";g.innerHTML=list.length?list.map(photoCard).join(""):`<div class="empty"><strong>暫時未有相片</strong><br>請把 JPG / PNG 相片放入此活動的 Google Drive Folder。</div>`;}
-    function albumCard(a){return `<article class="card"><a href="?album=${encodeURIComponent(a.id)}"><div class="cover"><img src="${escAttr(a.coverUrl||fallbackImage)}" alt="${escAttr(a.title)}"><span class="tag">${esc(a.category||"活動")}</span></div><div class="card-body"><div class="card-title">${esc(a.title)}</div><div class="card-desc">${esc(a.description||"活動相片紀錄")}</div><div class="card-meta"><span>${esc(a.dateText||"日期待定")}</span><span>${Number(a.photoCount||0)} 張相片</span></div></div></a></article>`}
-    function photoCard(p){const tag=currentAlbum?.category||"活動";return `<article class="card photo"><a href="${escAttr(p.viewUrl||'#')}" target="_blank" rel="noopener"><div class="cover"><img src="${escAttr(p.thumbnailUrl||fallbackImage)}" alt="${escAttr(p.name||'相片')}"><span class="tag">${esc(tag)}</span></div><div class="card-body"><div class="card-title">${esc(currentAlbum?.title||'活動相片')}</div><div class="card-desc">${esc(p.name||'未命名相片')}</div><div class="card-meta"><span>${dateText(p.updatedAt||p.createdAt)}</span><span>開啟原圖</span></div></div></a></article>`}
-    function renderFeature(a){const f=document.getElementById("featureCard");if(!a){f.innerHTML=`<img src="${fallbackImage}" alt="相簿封面"><div class="feature-content"><div class="badge">精選相簿</div><div class="feature-title">尚計劃活動相片集</div><div class="feature-meta">等待新增活動相簿</div><div class="feature-pill">相片 0 張</div></div>`;return;}f.innerHTML=`<img src="${escAttr(a.coverUrl||fallbackImage)}" alt="${escAttr(a.title)}"><div class="feature-content"><div class="badge">精選相簿</div><div class="feature-title">${esc(a.title||'尚計劃活動相片集')}</div><div class="feature-meta">📅 ${esc(a.dateText||'日期待定')}</div><div class="feature-pill">相片 ${Number(a.photoCount||0)} 張</div></div>`;}
-    function showError(msg){document.getElementById("gallery").className="grid";document.getElementById("gallery").innerHTML=`<div class="error"><strong>載入失敗</strong><br>${esc(msg)}</div>`;text("status","請檢查 Google Sheet 及 Apps Script 設定。");renderFeature(null)}
-    function text(id,v){const el=document.getElementById(id);if(el)el.textContent=v}function dateText(v){if(!v)return"日期待定";const d=new Date(v);return isNaN(d)?"日期待定":d.toLocaleDateString("zh-HK",{year:"numeric",month:"long",day:"numeric"})}function smartDate(v){if(!v)return"--";const d=new Date(v),n=new Date();if(!isNaN(d)&&d.toDateString()===n.toDateString())return"今天";return isNaN(d)?"--":d.toLocaleDateString("zh-HK",{month:"short",day:"numeric"})}function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}function escAttr(s){return esc(s).replaceAll("`","&#096;")}
+
+    function init() {
+      document.title = CONFIG.siteTitle || "尚計劃活動相片集";
+      setText("schoolZh", CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
+      setText("schoolEn", CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
+      setText("siteTitle", CONFIG.siteTitle || "尚計劃活動相片集");
+      setText("siteSubtitle", CONFIG.siteSubtitle || "記錄學生參與尚銀行、網尚店、工作體驗及校園服務的學習歷程。");
+      setText("footerSchool", (CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校") + "｜" + (CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School"));
+      setText("footerText", CONFIG.footerText || "HHCLKA Buddhist Po Kwong School");
+      renderBrandMark();
+      renderFilters();
+
+      document.getElementById("searchInput").addEventListener("input", renderCurrent);
+      document.getElementById("browseBtn").addEventListener("click", scrollToGallery);
+      document.getElementById("heroCta").addEventListener("click", scrollToGallery);
+      document.getElementById("focusSearch").addEventListener("click", () => {
+        scrollToGallery();
+        setTimeout(() => document.getElementById("searchInput").focus(), 450);
+      });
+
+      const albumId = new URLSearchParams(location.search).get("album");
+      albumId ? loadAlbum(albumId) : loadAlbums();
+    }
+
+    function renderBrandMark() {
+      const mark = document.getElementById("brandMark");
+      if (CONFIG.logoUrl) {
+        mark.innerHTML = `<img src="${escapeAttr(CONFIG.logoUrl)}" alt="校徽" onerror="this.parentElement.innerHTML='<div class=&quot;brand-fallback&quot;>普</div>'">`;
+      } else {
+        mark.innerHTML = `<div class="brand-fallback">普</div>`;
+      }
+    }
+
+    function renderFilters() {
+      const cats = CONFIG.categories || ["全部相簿", "尚銀行", "網尚店", "工作體驗", "校園服務", "其他"];
+      document.getElementById("filters").innerHTML = cats.map((cat, index) => `
+        <button class="filter ${index === 0 ? "active" : ""}" data-category="${escapeAttr(cat)}">${escapeHtml(cat)}</button>
+      `).join("");
+
+      document.getElementById("filters").addEventListener("click", event => {
+        const button = event.target.closest(".filter");
+        if (!button) return;
+        activeCategory = button.dataset.category;
+        document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        renderCurrent();
+      });
+    }
+
+    async function loadAlbums() {
+      mode = "albums";
+      currentAlbum = null;
+      photos = [];
+      document.getElementById("backBtn").style.display = "none";
+      setText("sectionTitle", "最新活動相簿");
+      setText("sectionSubtitle", "以影像記錄學生在尚計劃中的真實學習與成長瞬間。");
+
+      try {
+        const data = await getJson("albums");
+        if (!data.ok) throw new Error(data.error || "API 回傳錯誤");
+        albums = Array.isArray(data.albums) ? data.albums : [];
+        updateHero(albums.find(album => String(album.featured).toUpperCase() === "TRUE") || albums[0]);
+        updateMeta();
+        renderAlbums();
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+
+    async function loadAlbum(albumId) {
+      mode = "photos";
+      document.getElementById("backBtn").style.display = "inline-block";
+
+      try {
+        const data = await getJson("photos", { albumId });
+        if (!data.ok) throw new Error(data.error || "API 回傳錯誤");
+        currentAlbum = data.album || { title: "活動相簿", category: "其他" };
+        photos = Array.isArray(data.photos) ? data.photos : [];
+        setText("sectionTitle", currentAlbum.title || "活動相簿");
+        setText("sectionSubtitle", [currentAlbum.dateText, currentAlbum.description].filter(Boolean).join("　"));
+        updateHero({
+          title: currentAlbum.title,
+          description: currentAlbum.description,
+          dateText: currentAlbum.dateText,
+          category: currentAlbum.category,
+          coverUrl: photos[0] ? photos[0].thumbnailUrl : "",
+          photoCount: photos.length
+        });
+        updateMeta();
+        renderPhotos();
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+
+    function buildApiUrl(action, extra = {}) {
+      const params = new URLSearchParams({ action, ...extra });
+      if (CONFIG.apiBaseUrl) return CONFIG.apiBaseUrl + "?" + params.toString();
+      return "./api?" + params.toString();
+    }
+
+    function getJson(action, extra = {}) {
+      const url = buildApiUrl(action, extra);
+      if (CONFIG.apiMode === "jsonp") return jsonp(url);
+      return fetch(url).then(response => response.json());
+    }
+
+    function jsonp(url) {
+      return new Promise((resolve, reject) => {
+        const callback = "jsonp_cb_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+        const script = document.createElement("script");
+        const join = url.includes("?") ? "&" : "?";
+        window[callback] = data => {
+          delete window[callback];
+          script.remove();
+          resolve(data);
+        };
+        script.onerror = () => {
+          delete window[callback];
+          script.remove();
+          reject(new Error("Apps Script JSONP 載入失敗"));
+        };
+        script.src = url + join + "callback=" + encodeURIComponent(callback);
+        document.body.appendChild(script);
+      });
+    }
+
+    function updateHero(album) {
+      const heroBg = document.getElementById("heroBg");
+      if (album && album.coverUrl) {
+        heroBg.style.setProperty("--hero-image", `url('${escapeCssUrl(album.coverUrl)}')`);
+      } else {
+        heroBg.style.setProperty("--hero-image", cameraFallback);
+      }
+    }
+
+    function updateMeta() {
+      const albumCount = mode === "photos" ? 1 : albums.length;
+      const photoCount = mode === "photos"
+        ? photos.length
+        : albums.reduce((sum, album) => sum + Number(album.photoCount || 0), 0);
+      const latestDate = mode === "photos"
+        ? (photos[0] ? photos[0].updatedAt : "")
+        : ([...albums].sort((a, b) => new Date(b.latestUpdated || 0) - new Date(a.latestUpdated || 0))[0] || {}).latestUpdated;
+      setText("metaLine", `${albumCount} 個相簿　・　${photoCount} 張相片　・　最近更新 ${formatSmartDate(latestDate)}`);
+    }
+
+    function renderCurrent() {
+      mode === "albums" ? renderAlbums() : renderPhotos();
+    }
+
+    function renderAlbums() {
+      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+      let list = albums.filter(album => activeCategory === "全部相簿" || album.category === activeCategory);
+      if (keyword) {
+        list = list.filter(album => [album.title, album.category, album.description, album.dateText].join(" ").toLowerCase().includes(keyword));
+      }
+
+      setText("status", list.length ? `已載入 ${list.length} 個相簿` : "暫時未有相簿");
+      const grid = document.getElementById("grid");
+      grid.className = "album-grid";
+      grid.innerHTML = list.length
+        ? list.map(renderAlbumCard).join("")
+        : `<div class="empty"><strong>暫時未有相簿</strong><br>請在 Google Sheet 的 Albums 工作頁新增資料，並將 published 設為 TRUE。</div>`;
+    }
+
+    function renderPhotos() {
+      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+      let list = [...photos];
+      if (keyword) list = list.filter(photo => String(photo.name || "").toLowerCase().includes(keyword));
+      setText("status", list.length ? `已載入 ${list.length} 張相片` : "暫時未有相片");
+      const grid = document.getElementById("grid");
+      grid.className = "photo-grid";
+      grid.innerHTML = list.length
+        ? list.map(renderPhotoCard).join("")
+        : `<div class="empty"><strong>暫時未有相片</strong><br>請把 JPG / PNG 相片放入此活動的 Google Drive Folder。</div>`;
+    }
+
+    function renderAlbumCard(album) {
+      return `
+        <article class="album-card" onclick="location.href='?album=${encodeURIComponent(album.id)}'">
+          <div class="album-cover">
+            <img src="${escapeAttr(album.coverUrl || "")}" alt="${escapeAttr(album.title || "活動相簿")}" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="album-body">
+            <div class="album-kicker">${escapeHtml(album.category || "活動相簿")}</div>
+            <div class="album-title">${escapeHtml(album.title || "未命名相簿")}</div>
+            <div class="album-desc">${escapeHtml(album.description || "此相簿記錄活動中的學習過程與精彩時刻。")}</div>
+            <div class="album-meta">
+              <span>${escapeHtml(album.dateText || "日期待定")}</span>
+              <span>・</span>
+              <span>${Number(album.photoCount || 0)} 張相片</span>
+              <span>・</span>
+              <span>查看相簿 →</span>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderPhotoCard(photo) {
+      return `
+        <article class="photo-card">
+          <a href="${escapeAttr(photo.viewUrl || "#")}" target="_blank" rel="noopener">
+            <div class="photo-cover">
+              <img src="${escapeAttr(photo.thumbnailUrl || "")}" alt="${escapeAttr(photo.name || "相片")}" loading="lazy" onerror="this.style.display='none'">
+            </div>
+            <div class="photo-body">
+              <div class="photo-title">${escapeHtml(photo.name || "未命名相片")}</div>
+              <div class="photo-meta">${formatDate(photo.updatedAt || photo.createdAt)}</div>
+            </div>
+          </a>
+        </article>
+      `;
+    }
+
+    function showError(message) {
+      const grid = document.getElementById("grid");
+      grid.className = "album-grid";
+      grid.innerHTML = `<div class="error"><strong>載入失敗</strong><br>${escapeHtml(message)}</div>`;
+      setText("status", "請檢查 Google Sheet 及 Apps Script 設定。");
+    }
+
+    function scrollToGallery() {
+      document.getElementById("galleryArea").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function formatDate(value) {
+      if (!value) return "日期待定";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "日期待定";
+      return date.toLocaleDateString("zh-HK", { year: "numeric", month: "long", day: "numeric" });
+    }
+
+    function formatSmartDate(value) {
+      if (!value) return "--";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "--";
+      return date.toLocaleDateString("zh-HK", { month: "short", day: "numeric" });
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeAttr(text) {
+      return escapeHtml(text).replaceAll("`", "&#096;");
+    }
+
+    function escapeCssUrl(url) {
+      return String(url || "").replace(/'/g, "%27").replace(/\)/g, "%29");
+    }
   </script>
 </body>
 </html>
