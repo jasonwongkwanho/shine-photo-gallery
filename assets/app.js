@@ -2,37 +2,49 @@
   "use strict";
 
   const CONFIG = window.GALLERY_CONFIG || {};
-  const DEFAULT_CATEGORIES = ["焦點活動", "大型活動", "工作體驗", "校園服務", "其他"];
+
+  const FOCUS_CATEGORY = CONFIG.focusCategory || "焦點活動";
+  const REVIEW_CATEGORY = CONFIG.reviewCategory || "活動回顧";
+  const LEGACY_REVIEW_CATEGORY = "尚回憶";
+
   const categories = Array.isArray(CONFIG.categories) && CONFIG.categories.length
     ? CONFIG.categories
-    : DEFAULT_CATEGORIES;
-  const allCategory = categories[0] || "焦點活動";
+    : [FOCUS_CATEGORY, REVIEW_CATEGORY];
 
   const state = {
     albums: [],
     photos: [],
     mode: "albums",
-    activeCategory: allCategory,
+    activeCategory: FOCUS_CATEGORY,
     sortBy: "newest",
-    currentAlbum: null
+    currentAlbum: null,
+    returnCategory: FOCUS_CATEGORY
   };
 
   let els = {};
 
   function init() {
     const params = new URLSearchParams(window.location.search);
-    const requestedCategory = params.get("category");
+    const requestedCategory = normalizeCategory(params.get("category") || "");
+    const albumId = params.get("album");
+    const fromCategory = normalizeCategory(params.get("from") || "");
+
     if (requestedCategory && categories.includes(requestedCategory)) {
       state.activeCategory = requestedCategory;
+    }
+
+    if (fromCategory && categories.includes(fromCategory)) {
+      state.returnCategory = fromCategory;
+    } else {
+      state.returnCategory = state.activeCategory;
     }
 
     cacheElements();
     applyConfigText();
     renderBrandMark();
-    renderFilters();
+    renderNav();
     bindEvents();
 
-    const albumId = params.get("album");
     if (albumId) {
       loadAlbum(albumId);
     } else {
@@ -45,23 +57,27 @@
       brandMark: document.getElementById("brandMark"),
       schoolZh: document.getElementById("schoolZh"),
       schoolEn: document.getElementById("schoolEn"),
-      siteTitle: document.getElementById("siteTitle"),
       siteSubtitle: document.getElementById("siteSubtitle"),
       footerSchool: document.getElementById("footerSchool"),
       footerText: document.getElementById("footerText"),
-      filters: document.getElementById("filters"),
+      siteNav: document.getElementById("siteNav"),
+
       searchInput: document.getElementById("searchInput"),
       sortSelect: document.getElementById("sortSelect"),
       metaLine: document.getElementById("metaLine"),
       status: document.getElementById("status"),
+
       featureSection: document.querySelector(".feature-section"),
       moreSection: document.querySelector(".more-section"),
       featuredArea: document.getElementById("featuredArea"),
       albumGrid: document.getElementById("albumGrid"),
+
       homeHero: document.getElementById("homeHero"),
       galleryControls: document.getElementById("galleryControls"),
       homeView: document.getElementById("homeView"),
       albumView: document.getElementById("albumView"),
+
+      backBtn: document.getElementById("backBtn"),
       albumMasthead: document.getElementById("albumMasthead"),
       photoStatus: document.getElementById("photoStatus"),
       photoGrid: document.getElementById("photoGrid")
@@ -72,7 +88,6 @@
     document.title = CONFIG.siteTitle || "尚片集";
     setText(els.schoolZh, CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
     setText(els.schoolEn, CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
-    renderSiteTitle(CONFIG.siteTitle || "尚片集");
     setText(els.siteSubtitle, CONFIG.siteSubtitle || "記錄學生的學習歷程，見證每一次參與、嘗試與進步。");
     setText(els.footerSchool, CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
     setText(els.footerText, CONFIG.footerText || CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
@@ -89,95 +104,69 @@
     els.brandMark.textContent = "尚";
   }
 
-  function renderFilters() {
-    renderCategoryButtons(els.filters, "filter-button");
-  }
+  function renderNav() {
+    if (!els.siteNav) return;
 
-  function renderCategoryButtons(container, className) {
-    if (!container) return;
-
-    container.innerHTML = categories.map(function (category) {
+    els.siteNav.innerHTML = categories.map(function (category) {
       const activeClass = category === state.activeCategory ? " is-active" : "";
-      return `<button class="${className}${activeClass}" type="button" data-category="${escapeAttr(category)}">${escapeHtml(category)}</button>`;
+      const href = `./?category=${encodeURIComponent(category)}`;
+
+      return `<a class="nav-link${activeClass}" href="${escapeAttr(href)}" data-category="${escapeAttr(category)}">${escapeHtml(category)}</a>`;
     }).join("");
   }
 
-  function renderSiteTitle(title) {
-    if (!els.siteTitle) return;
-
-    const value = String(title || "尚片集").trim();
-    const separator = "．";
-    if (value.includes(separator)) {
-      const parts = value.split(separator);
-      const lead = parts.shift();
-      const rest = parts.join(separator);
-      els.siteTitle.innerHTML = `${escapeHtml(lead)}${escapeHtml(separator)}<span>${escapeHtml(rest)}</span>`;
-      return;
-    }
-
-    const suffix = "相片集";
-    if (value.endsWith(suffix) && value.length > suffix.length) {
-      els.siteTitle.innerHTML = `${escapeHtml(value.slice(0, -suffix.length))}<span>${escapeHtml(suffix)}</span>`;
-      return;
-    }
-
-    setText(els.siteTitle, value);
-  }
-
   function bindEvents() {
-    bindCategoryGroup(els.filters);
+    if (els.siteNav) {
+      els.siteNav.addEventListener("click", function (event) {
+        const link = event.target.closest("[data-category]");
+        if (!link) return;
+
+        const nextCategory = normalizeCategory(link.dataset.category || FOCUS_CATEGORY);
+        if (!categories.includes(nextCategory)) return;
+
+        if (state.mode === "photos") {
+          return;
+        }
+
+        event.preventDefault();
+        state.activeCategory = nextCategory;
+        state.returnCategory = nextCategory;
+        syncNav();
+        renderAlbums();
+        updateUrlCategory(nextCategory);
+      });
+    }
 
     if (els.searchInput) {
       els.searchInput.addEventListener("input", function () {
-        if (state.mode === "albums") renderAlbums();
+        if (state.mode === "albums" && state.activeCategory === REVIEW_CATEGORY) {
+          renderAlbums();
+        }
       });
     }
 
     if (els.sortSelect) {
       els.sortSelect.addEventListener("change", function () {
         state.sortBy = els.sortSelect.value || "newest";
-        renderAlbums();
-      });
-    }
-
-    const focusSearch = document.getElementById("focusSearch");
-    if (focusSearch && els.searchInput) {
-      focusSearch.addEventListener("click", function () {
-        if (state.mode === "photos") {
-          window.location.href = "./";
-          return;
+        if (state.mode === "albums") {
+          renderAlbums();
         }
-        els.searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
-        window.setTimeout(function () {
-          els.searchInput.focus();
-        }, 360);
       });
     }
   }
 
-  function bindCategoryGroup(group) {
-    if (!group) return;
-
-    group.addEventListener("click", function (event) {
-      const button = event.target.closest(".filter-button");
-      if (!button) return;
-
-      const nextCategory = button.dataset.category || allCategory;
-      if (state.mode === "photos") {
-        window.location.href = `./?category=${encodeURIComponent(nextCategory)}`;
-        return;
-      }
-
-      state.activeCategory = nextCategory;
-      syncCategoryButtons();
-      renderAlbums();
+  function syncNav() {
+    document.querySelectorAll("[data-category]").forEach(function (item) {
+      item.classList.toggle("is-active", normalizeCategory(item.dataset.category || "") === state.activeCategory);
     });
   }
 
-  function syncCategoryButtons() {
-    document.querySelectorAll("[data-category]").forEach(function (button) {
-      button.classList.toggle("is-active", button.dataset.category === state.activeCategory);
-    });
+  function updateUrlCategory(category) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("category", category);
+    url.searchParams.delete("album");
+    url.searchParams.delete("from");
+    window.history.replaceState({}, "", url.toString());
   }
 
   async function loadAlbums() {
@@ -185,17 +174,19 @@
     state.currentAlbum = null;
     state.photos = [];
     showHomeView();
-    setText(els.status, "正在載入相簿資料...");
+    setLoadingStatus(els.status, "相簿資料載入中", "正在連接 Google Drive 相片資料，請稍候...");
 
     try {
       const data = await getJson("albums");
-      if (!data || !data.ok) throw new Error((data && data.error) || "Apps Script API 回傳錯誤");
+      if (!data || !data.ok) {
+        throw new Error((data && data.error) || "Apps Script API 回傳錯誤");
+      }
 
       state.albums = Array.isArray(data.albums)
         ? data.albums.map(normalizeAlbum).filter(isPublished)
         : [];
+
       renderAlbums();
-      updateMetaLine(state.albums);
     } catch (error) {
       showHomeError(error.message);
     }
@@ -205,14 +196,18 @@
     state.mode = "photos";
     state.photos = [];
     showAlbumView();
-    setText(els.photoStatus, "正在載入相片...");
+    setLoadingStatus(els.photoStatus, "相片載入中", "正在整理相片牆，請稍候...");
 
     try {
       const data = await getJson("photos", { albumId: albumId });
-      if (!data || !data.ok) throw new Error((data && data.error) || "Apps Script API 回傳錯誤");
+      if (!data || !data.ok) {
+        throw new Error((data && data.error) || "Apps Script API 回傳錯誤");
+      }
 
       state.currentAlbum = normalizeAlbum(data.album || { id: albumId, title: "活動相簿" });
+      state.returnCategory = state.currentAlbum.category || state.returnCategory || FOCUS_CATEGORY;
       state.photos = Array.isArray(data.photos) ? data.photos : [];
+
       renderAlbumMasthead(state.currentAlbum);
       renderPhotos();
       updateMetaLine([state.currentAlbum], state.photos.length);
@@ -224,7 +219,6 @@
 
   function showHomeView() {
     if (els.homeHero) els.homeHero.hidden = false;
-    if (els.galleryControls) els.galleryControls.hidden = false;
     if (els.homeView) els.homeView.hidden = false;
     if (els.albumView) els.albumView.hidden = true;
   }
@@ -277,6 +271,7 @@
         cleanup();
         reject(new Error("Apps Script JSONP 載入失敗"));
       };
+
       script.src = url + separator + "callback=" + encodeURIComponent(callback);
       document.body.appendChild(script);
     });
@@ -284,12 +279,14 @@
 
   function normalizeAlbum(album) {
     const dateSource = album.dateText || album.activityDate || album.date || album.eventDateValue || "";
+    const normalizedCategory = normalizeCategory(album.category || "");
+
     return {
       id: String(album.id || album.albumId || "").trim(),
       albumId: String(album.albumId || album.id || "").trim(),
       title: String(album.title || album.name || "未命名相簿").trim(),
       folderId: String(album.folderId || "").trim(),
-      category: String(album.category || "其他").trim(),
+      category: normalizedCategory || REVIEW_CATEGORY,
       dateText: formatDisplayDate(dateSource),
       rawDate: dateSource,
       description: String(album.description || "").trim(),
@@ -297,9 +294,15 @@
       photoCount: Number(album.photoCount || album.count || 0),
       latestUpdated: album.latestUpdated || "",
       eventDateValue: Number(album.eventDateValue || 0),
-      featured: album.featured,
       published: album.published
     };
+  }
+
+  function normalizeCategory(value) {
+    const text = String(value || "").trim();
+    if (!text) return "";
+    if (text === LEGACY_REVIEW_CATEGORY) return REVIEW_CATEGORY;
+    return text;
   }
 
   function isPublished(album) {
@@ -314,15 +317,15 @@
     return text === "TRUE" || text === "YES" || text === "Y" || text === "1" || text === "是";
   }
 
-  function isFeatured(album) {
-    return normalizeBoolean(album.featured);
-  }
-
   function getVisibleAlbums() {
     const keyword = (els.searchInput ? els.searchInput.value : "").trim().toLowerCase();
+
     const filtered = state.albums.filter(function (album) {
-      const matchCategory = state.activeCategory === allCategory || album.category === state.activeCategory;
-      if (!matchCategory) return false;
+      if (album.category !== state.activeCategory) return false;
+
+      // 焦點活動是首頁主打，不需要搜尋。
+      if (state.activeCategory === FOCUS_CATEGORY) return true;
+
       if (!keyword) return true;
 
       return [album.title, album.category, album.description, album.dateText]
@@ -336,6 +339,7 @@
 
   function sortAlbums(list, sortBy) {
     const next = list.slice();
+
     if (sortBy === "oldest") {
       return next.sort(function (a, b) {
         return getAlbumDateValue(a) - getAlbumDateValue(b) || a.title.localeCompare(b.title, "zh-Hant");
@@ -358,68 +362,71 @@
     return parseDateValue(album.rawDate || album.dateText);
   }
 
-  function splitAlbums(list) {
-    const featured = list.filter(isFeatured);
-    return {
-      featured: featured.slice(0, 1),
-      more: list.filter(function (album) {
-        return !isFeatured(album);
-      })
-    };
-  }
-
-  function getAlbumSections(list, activeCategory) {
-    if (activeCategory !== allCategory) {
-      return {
-        featured: [],
-        grid: list.slice(),
-        showFeatured: false
-      };
-    }
-
-    const split = splitAlbums(list);
-    return {
-      featured: split.featured,
-      grid: split.more,
-      showFeatured: true
-    };
-  }
-
   function renderAlbums() {
     const visible = getVisibleAlbums();
-    const sections = getAlbumSections(visible, state.activeCategory);
+    const isFocus = state.activeCategory === FOCUS_CATEGORY;
+    const isReview = state.activeCategory === REVIEW_CATEGORY;
 
-    setText(els.status, visible.length
-      ? `顯示 ${visible.length} 個公開相簿`
-      : "未有符合條件的公開相簿");
+    syncNav();
+
+    if (els.galleryControls) {
+      els.galleryControls.hidden = !isReview;
+    }
 
     if (els.featureSection) {
-      els.featureSection.hidden = !sections.showFeatured;
+      els.featureSection.hidden = !isFocus;
     }
 
     if (els.moreSection) {
-      els.moreSection.hidden = sections.showFeatured;
+      els.moreSection.hidden = !isReview;
     }
 
-    if (els.featuredArea) {
-      els.featuredArea.innerHTML = sections.featured.length
-        ? renderFeaturedCard(sections.featured[0])
-        : renderEmptyState("更新中，密切留意", "更多精彩活動相片即將上載。");
+    if (isFocus) {
+      setNormalStatus(els.status, visible.length
+        ? `顯示 ${visible.length} 個焦點活動相簿`
+        : "暫時未有焦點活動相簿");
+
+      if (els.featuredArea) {
+        els.featuredArea.innerHTML = renderFocusAlbums(visible);
+      }
     }
 
-    if (els.albumGrid) {
-      els.albumGrid.innerHTML = sections.showFeatured
-        ? ""
-        : sections.grid.length
-        ? sections.grid.map(renderAlbumCard).join("")
-        : renderEmptyState("更新中，密切留意", "更多精彩活動相片即將上載。");
+    if (isReview) {
+      setNormalStatus(els.status, visible.length
+        ? `顯示 ${visible.length} 個活動回顧相簿`
+        : "未有符合條件的活動回顧相簿");
+
+      if (els.albumGrid) {
+        els.albumGrid.innerHTML = visible.length
+          ? visible.map(renderAlbumCard).join("")
+          : renderEmptyState("未找到相簿", "請嘗試更改搜尋字眼，或檢查 Google Sheet 欄 D 是否填寫「活動回顧」。");
+      }
     }
 
     updateMetaLine(visible);
   }
 
+  function renderFocusAlbums(albums) {
+    if (!albums.length) {
+      return renderEmptyState("更新中，密切留意", "請在 Google Sheet 欄 D 將主打活動分類設定為「焦點活動」。");
+    }
+
+    const lead = albums[0];
+    const others = albums.slice(1);
+
+    return `
+      ${renderFeaturedCard(lead)}
+      ${others.length ? `
+        <div class="focus-grid" aria-label="更多焦點活動">
+          ${others.map(renderFocusMiniCard).join("")}
+        </div>
+      ` : ""}
+    `;
+  }
+
   function renderFeaturedCard(album) {
     const href = makeAlbumHref(album);
+
     return `
       <article class="featured-card">
         <div class="featured-copy">
@@ -432,6 +439,7 @@
           </div>
           <a class="feature-action" href="${escapeAttr(href)}">查看相簿</a>
         </div>
+
         <a class="featured-media" href="${escapeAttr(href)}" aria-label="查看 ${escapeAttr(album.title)}">
           ${renderCoverImage(album.coverUrl, album.title)}
         </a>
@@ -439,14 +447,38 @@
     `;
   }
 
+  function renderFocusMiniCard(album) {
+    const href = makeAlbumHref(album);
+
+    return `
+      <article class="focus-card">
+        <a class="focus-cover" href="${escapeAttr(href)}" aria-label="查看 ${escapeAttr(album.title)}">
+          ${renderCoverImage(album.coverUrl, album.title)}
+        </a>
+        <div class="focus-body">
+          <span class="focus-label">${escapeHtml(album.category)}</span>
+          <h3>${escapeHtml(album.title)}</h3>
+          <p>${escapeHtml(excerpt(album.description || "活動相片已整理成焦點相簿。", 78))}</p>
+          <div class="focus-meta">
+            <span>${escapeHtml(album.dateText)}</span>
+            <span>${Number(album.photoCount || 0)} 張相片</span>
+          </div>
+          <a class="focus-action" href="${escapeAttr(href)}">查看相簿</a>
+        </div>
+      </article>
+    `;
+  }
+
   function renderAlbumCard(album) {
     const href = makeAlbumHref(album);
+
     return `
       <article class="album-card">
         <a class="album-cover" href="${escapeAttr(href)}" aria-label="查看 ${escapeAttr(album.title)}">
           ${renderCoverImage(album.coverUrl, album.title)}
           <span class="album-label">${escapeHtml(album.category)}</span>
         </a>
+
         <div class="album-body">
           <h3 class="album-title">${escapeHtml(album.title)}</h3>
           <p class="album-desc">${escapeHtml(excerpt(album.description || "活動相片已整理成相簿，歡迎瀏覽。", 76))}</p>
@@ -462,6 +494,12 @@
 
   function renderAlbumMasthead(album) {
     if (!els.albumMasthead) return;
+
+    const returnCategory = album.category || state.returnCategory || FOCUS_CATEGORY;
+    if (els.backBtn) {
+      els.backBtn.href = `./?category=${encodeURIComponent(returnCategory)}`;
+      els.backBtn.textContent = `返回${returnCategory}`;
+    }
 
     els.albumMasthead.innerHTML = `
       <div class="masthead-cover">
@@ -482,7 +520,7 @@
   function renderPhotos() {
     if (!els.photoGrid) return;
 
-    setText(els.photoStatus, state.photos.length
+    setNormalStatus(els.photoStatus, state.photos.length
       ? `顯示 ${state.photos.length} 張相片`
       : "此相簿暫時未有可顯示相片");
 
@@ -494,6 +532,7 @@
   function renderPhotoTile(photo) {
     const imageUrl = photo.thumbnailUrl || photo.imageUrl || "";
     const viewUrl = photo.viewUrl || photo.url || imageUrl || "#";
+
     return `
       <a class="photo-tile" href="${escapeAttr(viewUrl)}" target="_blank" rel="noopener" aria-label="開啟 Google Drive 原圖">
         <img src="${escapeAttr(imageUrl)}" alt="相簿相片" loading="lazy" onerror="this.style.opacity='0';" />
@@ -523,56 +562,56 @@
   }
 
   function renderEmptyState(title, detail) {
-    return `<div class="empty-state"><strong>${escapeHtml(title)}</strong>${escapeHtml(detail)}</div>`;
+    return `<div class="empty-state"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(detail)}</p></div>`;
   }
 
   function renderErrorState(title, detail) {
-    return `<div class="error-state"><strong>${escapeHtml(title)}</strong>${escapeHtml(detail)}</div>`;
+    return `<div class="error-state"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(detail)}</p></div>`;
   }
 
   function showHomeError(message) {
-    setText(els.status, "未能載入相簿資料");
+    setNormalStatus(els.status, "未能載入相簿資料");
     if (els.featuredArea) els.featuredArea.innerHTML = "";
     if (els.albumGrid) els.albumGrid.innerHTML = renderErrorState("載入失敗", message);
     updateMetaLine([]);
   }
 
   function showPhotoError(message) {
-    setText(els.photoStatus, "未能載入相片");
+    setNormalStatus(els.photoStatus, "未能載入相片");
     if (els.photoGrid) els.photoGrid.innerHTML = renderErrorState("載入失敗", message);
     updateMetaLine([], 0);
   }
 
   function updateMetaLine(list, explicitPhotoCount) {
     const albumsForMeta = Array.isArray(list) ? list : [];
-    const albumCount = state.mode === "photos" ? 1 : albumsForMeta.length;
 
-    if (state.mode === "albums" && state.activeCategory === allCategory) {
-      if (els.metaLine) els.metaLine.hidden = true;
+    if (!els.metaLine) return;
+
+    if (state.mode === "albums" && state.activeCategory === FOCUS_CATEGORY) {
+      els.metaLine.hidden = true;
       setText(els.metaLine, "");
       return;
     }
 
-    if (els.metaLine) els.metaLine.hidden = false;
+    els.metaLine.hidden = false;
 
-    if (state.mode === "albums" && state.activeCategory === "尚回憶") {
-      setText(els.metaLine, `${albumCount} 個相簿`);
-      return;
-    }
-
+    const albumCount = state.mode === "photos" ? 1 : albumsForMeta.length;
     const photoCount = Number.isFinite(explicitPhotoCount)
       ? explicitPhotoCount
       : albumsForMeta.reduce(function (sum, album) {
         return sum + Number(album.photoCount || 0);
       }, 0);
+
     const latest = sortAlbums(albumsForMeta, "newest")[0];
     const latestText = latest ? latest.dateText : "日期待定";
+
     setText(els.metaLine, `${albumCount} 個相簿　${photoCount} 張相片　最新活動：${latestText}`);
   }
 
   function makeAlbumHref(album) {
     const id = album.id || album.albumId;
-    return `?album=${encodeURIComponent(id)}`;
+    const from = album.category || state.activeCategory || FOCUS_CATEGORY;
+    return `?album=${encodeURIComponent(id)}&from=${encodeURIComponent(from)}`;
   }
 
   function formatDisplayDate(value) {
@@ -614,6 +653,18 @@
     return value.slice(0, maxLength - 1).trim() + "…";
   }
 
+  function setLoadingStatus(element, title, detail) {
+    if (!element) return;
+    element.classList.add("is-loading");
+    element.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail || "")}</span>`;
+  }
+
+  function setNormalStatus(element, value) {
+    if (!element) return;
+    element.classList.remove("is-loading");
+    element.textContent = value;
+  }
+
   function setText(element, value) {
     if (element) element.textContent = value;
   }
@@ -634,13 +685,11 @@
   window.GalleryAppTest = {
     excerpt,
     formatDisplayDate,
-    isFeatured,
     normalizeAlbum,
+    normalizeCategory,
     parseDateValue,
     renderPhotoTile,
-    sortAlbums,
-    splitAlbums,
-    getAlbumSections
+    sortAlbums
   };
 
   if (typeof document !== "undefined" && document.addEventListener) {
