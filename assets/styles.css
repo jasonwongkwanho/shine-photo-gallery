@@ -284,39 +284,42 @@ img {
   place-items: center;
 }
 
-.hero-lens {
+.hero-mosaic {
   position: relative;
-  width: min(360px, 74vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
+  width: min(410px, 78vw);
+  aspect-ratio: 1.08;
+  overflow: hidden;
+  border-radius: 34px;
   border: 1px solid rgba(255, 255, 255, 0.36);
   background:
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.34) 0 11%, transparent 12%),
-    conic-gradient(from 18deg, rgba(6, 182, 212, 0.88), rgba(37, 99, 235, 0.82), rgba(217, 70, 239, 0.62), rgba(249, 115, 22, 0.7), rgba(6, 182, 212, 0.88)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.05));
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.04)),
+    conic-gradient(from 90deg at 16% 22%, #06b6d4 0 16%, #2563eb 16% 29%, #d946ef 29% 43%, #f97316 43% 57%, #d4a017 57% 70%, #4f46e5 70% 84%, #14b8a6 84% 100%);
   box-shadow:
     0 34px 90px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 24px rgba(255, 255, 255, 0.08),
-    inset 0 0 0 74px rgba(7, 26, 53, 0.16);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(18px);
 }
 
-.hero-lens::before,
-.hero-lens::after {
+.hero-mosaic::before {
   content: "";
   position: absolute;
-  inset: 15%;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  inset: 0;
   background:
-    repeating-conic-gradient(from 12deg, rgba(255, 255, 255, 0.24) 0 14deg, transparent 14deg 32deg),
-    radial-gradient(circle at 50% 50%, rgba(7, 26, 53, 0.24), transparent 58%);
+    linear-gradient(90deg, transparent 0 23%, rgba(255, 255, 255, 0.28) 23% 24%, transparent 24% 49%, rgba(255, 255, 255, 0.2) 49% 50%, transparent 50% 74%, rgba(255, 255, 255, 0.22) 74% 75%, transparent 75%),
+    linear-gradient(0deg, transparent 0 18%, rgba(255, 255, 255, 0.24) 18% 19%, transparent 19% 39%, rgba(255, 255, 255, 0.18) 39% 40%, transparent 40% 63%, rgba(255, 255, 255, 0.22) 63% 64%, transparent 64% 82%, rgba(255, 255, 255, 0.2) 82% 83%, transparent 83%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0 2px, transparent 2px 16px);
+  mix-blend-mode: screen;
 }
 
-.hero-lens::after {
-  inset: 38%;
-  background: rgba(7, 26, 53, 0.34);
-  box-shadow: 0 0 52px rgba(6, 182, 212, 0.36);
+.hero-mosaic::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.55), transparent 18%),
+    radial-gradient(circle at 82% 82%, rgba(6, 182, 212, 0.38), transparent 30%),
+    linear-gradient(135deg, rgba(7, 26, 53, 0.12), rgba(255, 255, 255, 0.18));
+  box-shadow: inset 0 0 64px rgba(7, 26, 53, 0.18);
 }
 
 .gallery-controls {
