@@ -284,42 +284,15 @@ img {
   place-items: center;
 }
 
-.hero-mosaic {
-  position: relative;
-  width: min(410px, 78vw);
-  aspect-ratio: 1.08;
-  overflow: hidden;
-  border-radius: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.04)),
-    conic-gradient(from 90deg at 16% 22%, #06b6d4 0 16%, #2563eb 16% 29%, #d946ef 29% 43%, #f97316 43% 57%, #d4a017 57% 70%, #4f46e5 70% 84%, #14b8a6 84% 100%);
-  box-shadow:
-    0 34px 90px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(18px);
-}
-
-.hero-mosaic::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, transparent 0 23%, rgba(255, 255, 255, 0.28) 23% 24%, transparent 24% 49%, rgba(255, 255, 255, 0.2) 49% 50%, transparent 50% 74%, rgba(255, 255, 255, 0.22) 74% 75%, transparent 75%),
-    linear-gradient(0deg, transparent 0 18%, rgba(255, 255, 255, 0.24) 18% 19%, transparent 19% 39%, rgba(255, 255, 255, 0.18) 39% 40%, transparent 40% 63%, rgba(255, 255, 255, 0.22) 63% 64%, transparent 64% 82%, rgba(255, 255, 255, 0.2) 82% 83%, transparent 83%),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0 2px, transparent 2px 16px);
-  mix-blend-mode: screen;
-}
-
-.hero-mosaic::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.55), transparent 18%),
-    radial-gradient(circle at 82% 82%, rgba(6, 182, 212, 0.38), transparent 30%),
-    linear-gradient(135deg, rgba(7, 26, 53, 0.12), rgba(255, 255, 255, 0.18));
-  box-shadow: inset 0 0 64px rgba(7, 26, 53, 0.18);
+.hero-paint-splash {
+  width: min(520px, 82vw);
+  max-height: 460px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 34px 72px rgba(0, 0, 0, 0.28))
+    drop-shadow(0 14px 34px rgba(6, 182, 212, 0.18));
+  transform: rotate(-3deg);
+  transform-origin: center;
 }
 
 .gallery-controls {
