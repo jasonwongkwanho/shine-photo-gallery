@@ -502,12 +502,10 @@
   }
 
   function renderCoverImage(url, title) {
-    const fallback = renderCoverFallback(title);
-    if (!url) return fallback;
+    if (!url) return renderCoverFallback(title);
 
     return `
       <img src="${escapeAttr(url)}" alt="${escapeAttr(title || "活動相簿封面")}" loading="lazy" onerror="this.remove();" />
-      ${fallback}
     `;
   }
 
