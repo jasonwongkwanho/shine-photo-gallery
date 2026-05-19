@@ -69,10 +69,10 @@
   }
 
   function applyConfigText() {
-    document.title = CONFIG.siteTitle || "尚回憶．尚片集";
+    document.title = CONFIG.siteTitle || "尚片集";
     setText(els.schoolZh, CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
     setText(els.schoolEn, CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
-    renderSiteTitle(CONFIG.siteTitle || "尚回憶．尚片集");
+    renderSiteTitle(CONFIG.siteTitle || "尚片集");
     setText(els.siteSubtitle, CONFIG.siteSubtitle || "記錄學生的學習歷程，見證每一次參與、嘗試與進步。");
     setText(els.footerSchool, CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
     setText(els.footerText, CONFIG.footerText || CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
@@ -105,7 +105,7 @@
   function renderSiteTitle(title) {
     if (!els.siteTitle) return;
 
-    const value = String(title || "尚回憶．尚片集").trim();
+    const value = String(title || "尚片集").trim();
     const separator = "．";
     if (value.includes(separator)) {
       const parts = value.split(separator);

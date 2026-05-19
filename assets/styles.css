@@ -334,11 +334,6 @@ img {
   color: transparent;
 }
 
-.title-dot {
-  color: #a855f7;
-  margin: 0 6px;
-}
-
 .title-gradient {
   background: linear-gradient(135deg, #7c3aed, #ec4899, #fb7185);
   -webkit-background-clip: text;
