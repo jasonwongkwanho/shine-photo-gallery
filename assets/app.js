@@ -2,11 +2,11 @@
   "use strict";
 
   const CONFIG = window.GALLERY_CONFIG || {};
-  const DEFAULT_CATEGORIES = ["全部相簿", "大型活動", "工作體驗", "校園服務", "其他"];
+  const DEFAULT_CATEGORIES = ["焦點活動", "大型活動", "工作體驗", "校園服務", "其他"];
   const categories = Array.isArray(CONFIG.categories) && CONFIG.categories.length
     ? CONFIG.categories
     : DEFAULT_CATEGORIES;
-  const allCategory = categories[0] || "全部相簿";
+  const allCategory = categories[0] || "焦點活動";
 
   const state = {
     albums: [],
@@ -49,6 +49,7 @@
       metaLine: document.getElementById("metaLine"),
       status: document.getElementById("status"),
       featureSection: document.querySelector(".feature-section"),
+      moreSection: document.querySelector(".more-section"),
       featuredArea: document.getElementById("featuredArea"),
       albumGrid: document.getElementById("albumGrid"),
       homeHero: document.getElementById("homeHero"),
@@ -357,6 +358,10 @@
       els.featureSection.hidden = !sections.showFeatured;
     }
 
+    if (els.moreSection) {
+      els.moreSection.hidden = sections.showFeatured;
+    }
+
     if (els.featuredArea) {
       els.featuredArea.innerHTML = sections.featured.length
         ? renderFeaturedCard(sections.featured[0])
@@ -364,7 +369,9 @@
     }
 
     if (els.albumGrid) {
-      els.albumGrid.innerHTML = sections.grid.length
+      els.albumGrid.innerHTML = sections.showFeatured
+        ? ""
+        : sections.grid.length
         ? sections.grid.map(renderAlbumCard).join("")
         : renderEmptyState("更新中，密切留意", "更多精彩活動相片即將上載。");
     }
