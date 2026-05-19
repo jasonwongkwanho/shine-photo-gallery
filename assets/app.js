@@ -20,13 +20,19 @@
   let els = {};
 
   function init() {
+    const params = new URLSearchParams(window.location.search);
+    const requestedCategory = params.get("category");
+    if (requestedCategory && categories.includes(requestedCategory)) {
+      state.activeCategory = requestedCategory;
+    }
+
     cacheElements();
     applyConfigText();
     renderBrandMark();
     renderFilters();
     bindEvents();
 
-    const albumId = new URLSearchParams(window.location.search).get("album");
+    const albumId = params.get("album");
     if (albumId) {
       loadAlbum(albumId);
     } else {
@@ -41,7 +47,7 @@
       schoolEn: document.getElementById("schoolEn"),
       siteTitle: document.getElementById("siteTitle"),
       siteSubtitle: document.getElementById("siteSubtitle"),
-      heroVisual: document.getElementById("heroVisual"),
+      headerCategories: document.getElementById("headerCategories"),
       footerSchool: document.getElementById("footerSchool"),
       footerText: document.getElementById("footerText"),
       filters: document.getElementById("filters"),
@@ -85,11 +91,16 @@
   }
 
   function renderFilters() {
-    if (!els.filters) return;
+    renderCategoryButtons(els.headerCategories, "header-category-button");
+    renderCategoryButtons(els.filters, "filter-button");
+  }
 
-    els.filters.innerHTML = categories.map(function (category, index) {
-      const activeClass = index === 0 ? " is-active" : "";
-      return `<button class="filter-button${activeClass}" type="button" data-category="${escapeAttr(category)}">${escapeHtml(category)}</button>`;
+  function renderCategoryButtons(container, className) {
+    if (!container) return;
+
+    container.innerHTML = categories.map(function (category) {
+      const activeClass = category === state.activeCategory ? " is-active" : "";
+      return `<button class="${className}${activeClass}" type="button" data-category="${escapeAttr(category)}">${escapeHtml(category)}</button>`;
     }).join("");
   }
 
@@ -115,41 +126,9 @@
     setText(els.siteTitle, value);
   }
 
-  function updateHeroVisual(list) {
-    if (!els.heroVisual) return;
-
-    const albums = Array.isArray(list) ? list : [];
-    const featuredAlbum = albums.find(isFeatured);
-    const picks = []
-      .concat(featuredAlbum ? [featuredAlbum] : [])
-      .concat(albums.filter(function (album) {
-        return album !== featuredAlbum;
-      }));
-    const cards = [
-      { className: "photo-card big", album: picks[0], fallback: "尚" },
-      { className: "photo-card small left", album: picks[1], fallback: "活動" },
-      { className: "photo-card small right", album: picks[2], fallback: "相片" }
-    ];
-
-    els.heroVisual.innerHTML = cards.map(function (card) {
-      const album = card.album || {};
-      return `<div class="${card.className}">${renderCoverImage(album.coverUrl, album.title || card.fallback)}</div>`;
-    }).join("") + '<div class="camera-icon"></div>';
-  }
-
   function bindEvents() {
-    if (els.filters) {
-      els.filters.addEventListener("click", function (event) {
-        const button = event.target.closest(".filter-button");
-        if (!button) return;
-
-        state.activeCategory = button.dataset.category || allCategory;
-        els.filters.querySelectorAll(".filter-button").forEach(function (item) {
-          item.classList.toggle("is-active", item === button);
-        });
-        renderAlbums();
-      });
-    }
+    bindCategoryGroup(els.headerCategories, true);
+    bindCategoryGroup(els.filters, false);
 
     if (els.searchInput) {
       els.searchInput.addEventListener("input", function () {
@@ -179,6 +158,36 @@
     }
   }
 
+  function bindCategoryGroup(group, shouldScroll) {
+    if (!group) return;
+
+    group.addEventListener("click", function (event) {
+        const button = event.target.closest(".filter-button");
+        const headerButton = event.target.closest(".header-category-button");
+        const categoryButton = button || headerButton;
+        if (!categoryButton) return;
+
+        const nextCategory = categoryButton.dataset.category || allCategory;
+        if (state.mode === "photos") {
+          window.location.href = `./?category=${encodeURIComponent(nextCategory)}`;
+          return;
+        }
+
+        state.activeCategory = nextCategory;
+        syncCategoryButtons();
+        renderAlbums();
+        if (shouldScroll && els.galleryControls) {
+          els.galleryControls.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    });
+  }
+
+  function syncCategoryButtons() {
+    document.querySelectorAll("[data-category]").forEach(function (button) {
+      button.classList.toggle("is-active", button.dataset.category === state.activeCategory);
+    });
+  }
+
   async function loadAlbums() {
     state.mode = "albums";
     state.currentAlbum = null;
@@ -193,7 +202,6 @@
       state.albums = Array.isArray(data.albums)
         ? data.albums.map(normalizeAlbum).filter(isPublished)
         : [];
-      updateHeroVisual(state.albums);
       renderAlbums();
       updateMetaLine(state.albums);
     } catch (error) {
