@@ -6,8 +6,6 @@ window.GALLERY_CONFIG = {
   categories: ["全部相簿", "大型活動", "工作體驗", "校園服務", "其他"],
   footerText: "HHCLKA Buddhist Po Kwong School",
 
-  // GitHub Pages is a static host, so it calls the Apps Script read-only API directly.
-  // This URL is public read-only. Do not put API_SECRET here.
-  apiBaseUrl: "https://script.google.com/macros/s/AKfycbxKbdXinQ3L_Uedxcs1OYjUYqaLrC0eOqHPatdxa04whE5hMzOrjB3inTiWz_qAqxosaw/exec",
+  apiBaseUrl: "https://script.google.com/macros/s/AKfycbzOe2BGz98pp1cozsTID82MH21dbpsTokCsPUU04R_LCgf4o8nqaKrEHo45_Ci8LGGONA/exec",
   apiMode: "jsonp"
 };
