@@ -7,41 +7,41 @@
   <script src="./config.js"></script>
   <style>
     :root {
-      --ink: #111827;
-      --navy: #0c2344;
+      --ink: #101828;
+      --navy: #0b2345;
+      --navy-2: #122f5f;
       --muted: #667085;
-      --soft: #f5f6f8;
       --line: #e7e9ee;
+      --paper: #fbfaf7;
       --white: #ffffff;
       --accent: #174ea6;
-      --gold: #b4935a;
-      --shadow: 0 18px 42px rgba(15, 23, 42, 0.10);
-      --soft-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+      --gold: #b99356;
+      --soft-gold: #f1e7d4;
+      --shadow: 0 20px 45px rgba(16, 24, 40, .10);
+      --soft-shadow: 0 10px 26px rgba(16, 24, 40, .07);
       --radius: 18px;
     }
 
     * { box-sizing: border-box; }
-
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       color: var(--ink);
-      background: #ffffff;
+      background: #fff;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
     }
-
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
     .site-header {
-      height: 78px;
+      height: 74px;
       border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
       z-index: 50;
     }
-
     .header-inner {
       max-width: 1240px;
       height: 100%;
@@ -52,67 +52,24 @@
       justify-content: space-between;
       gap: 24px;
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      min-width: 0;
-    }
-
+    .brand { display: flex; align-items: center; gap: 13px; min-width: 0; }
     .brand-mark {
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 1px solid rgba(12,35,68,.18);
+      background: #fff;
       display: grid;
       place-items: center;
       overflow: hidden;
-      background: #fff;
       flex: 0 0 auto;
       box-shadow: 0 8px 20px rgba(12,35,68,.08);
     }
-
-    .brand-mark img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 3px;
-    }
-
-    .brand-fallback {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      background: var(--navy);
-      color: #fff;
-      font-weight: 800;
-      letter-spacing: .08em;
-    }
-
-    .brand-title {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: .03em;
-      line-height: 1.25;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-
-    .brand-subtitle {
-      margin-top: 2px;
-      font-size: 12px;
-      color: #667085;
-      white-space: nowrap;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .brand-mark img { width: 100%; height: 100%; object-fit: contain; padding: 3px; }
+    .brand-fallback { width: 100%; height: 100%; display: grid; place-items: center; background: var(--navy); color: #fff; font-weight: 800; letter-spacing: .08em; }
+    .brand-title { font-size: 16px; font-weight: 750; letter-spacing: .03em; line-height: 1.25; color: var(--ink); white-space: nowrap; }
+    .brand-subtitle { margin-top: 2px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
     .search-mini {
       width: 42px;
       height: 42px;
@@ -125,7 +82,6 @@
       color: var(--navy);
       box-shadow: 0 8px 18px rgba(15,23,42,.05);
     }
-
     .browse-btn {
       height: 42px;
       border: 1px solid rgba(12,35,68,.12);
@@ -133,7 +89,7 @@
       color: #fff;
       border-radius: 999px;
       padding: 0 18px;
-      font-weight: 700;
+      font-weight: 750;
       letter-spacing: .02em;
       display: inline-flex;
       align-items: center;
@@ -143,148 +99,94 @@
     }
 
     .hero {
-      min-height: 430px;
+      min-height: 420px;
       position: relative;
-      display: flex;
-      align-items: stretch;
       overflow: hidden;
-      background: #101827;
+      background:
+        radial-gradient(circle at 88% 36%, rgba(185,147,86,.26), transparent 21%),
+        radial-gradient(circle at 62% 16%, rgba(23,78,166,.13), transparent 22%),
+        linear-gradient(90deg, #fdfbf7 0%, #fbf8f2 44%, #f4f7fb 100%);
+      border-bottom: 1px solid var(--line);
     }
-
-    .hero-bg {
+    .hero::before {
+      content: "";
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(90deg, rgba(8,18,33,.84), rgba(8,18,33,.48), rgba(8,18,33,.18)),
-        var(--hero-image);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='520' viewBox='0 0 1600 520'%3E%3Cdefs%3E%3ClinearGradient id='navy' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%230b2345' stop-opacity='.05'/%3E%3Cstop offset='1' stop-color='%230b2345' stop-opacity='.72'/%3E%3C/linearGradient%3E%3ClinearGradient id='gold' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23d8bd7a' stop-opacity='.15'/%3E%3Cstop offset='1' stop-color='%23b99356' stop-opacity='.75'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M650 40 C820 170 980 10 1160 118 C1290 195 1430 160 1600 40 L1600 520 L650 520 Z' fill='%23eef2f7' opacity='.65'/%3E%3Cpath d='M780 210 C940 80 1080 230 1250 170 C1380 125 1480 160 1600 115 L1600 520 L760 520 Z' fill='url(%23gold)' opacity='.55'/%3E%3Cpath d='M620 410 C790 260 940 360 1100 280 C1280 190 1430 295 1600 235 L1600 520 L610 520 Z' fill='url(%23navy)' opacity='.85'/%3E%3Cpath d='M1170 70 C1205 190 1165 295 1255 435' stroke='%23b99356' stroke-opacity='.55' stroke-width='2' fill='none'/%3E%3Cpath d='M890 55 C1070 250 1260 20 1530 120' stroke='%23b99356' stroke-opacity='.45' stroke-width='2' fill='none'/%3E%3Cg transform='translate(1370 145)' stroke='%230b2345' stroke-width='5' stroke-opacity='.72' fill='none' stroke-linecap='round'%3E%3Cpath d='M55 270 C40 190 62 100 28 0'/%3E%3Cpath d='M45 205 C5 180 0 135 7 95'/%3E%3Cpath d='M49 165 C100 140 120 100 116 58'/%3E%3Cpath d='M53 125 C18 97 16 55 27 22'/%3E%3Cpath d='M58 90 C102 68 126 40 132 8'/%3E%3C/g%3E%3Ccircle cx='1220' cy='255' r='115' fill='%23ffffff' opacity='.18'/%3E%3Ccircle cx='1330' cy='310' r='160' fill='%23ffffff' opacity='.10'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
       background-size: cover;
-      background-position: center;
-      transform: scale(1.02);
+      background-position: center right;
+      pointer-events: none;
     }
-
     .hero-inner {
       position: relative;
       max-width: 1240px;
-      width: 100%;
       margin: 0 auto;
-      padding: 74px 28px 64px;
+      min-height: 420px;
+      padding: 70px 28px 64px;
       display: flex;
       align-items: center;
     }
-
-    .hero-copy {
-      max-width: 680px;
-      color: #fff;
-    }
-
+    .hero-copy { max-width: 650px; color: var(--navy); }
     .eyebrow {
       display: flex;
       align-items: center;
       gap: 16px;
       font-size: 13px;
-      color: rgba(255,255,255,.72);
-      letter-spacing: .34em;
-      margin-bottom: 24px;
+      color: var(--gold);
+      letter-spacing: .28em;
+      margin-bottom: 22px;
+      font-weight: 750;
     }
-
-    .eyebrow::before {
-      content: "";
-      width: 48px;
-      height: 1px;
-      background: rgba(255,255,255,.65);
-    }
-
+    .eyebrow::before { content: ""; width: 48px; height: 1px; background: var(--gold); }
     h1 {
       margin: 0;
       font-family: Georgia, "Times New Roman", "Noto Serif TC", serif;
-      font-size: clamp(44px, 6vw, 76px);
+      font-size: clamp(42px, 6vw, 72px);
       line-height: 1.08;
-      letter-spacing: .06em;
+      letter-spacing: .07em;
       font-weight: 500;
     }
-
-    .hero-copy p {
-      margin: 24px 0 30px;
-      font-size: 18px;
-      line-height: 1.9;
-      color: rgba(255,255,255,.82);
-      max-width: 620px;
-    }
-
+    .hero-copy p { margin: 22px 0 30px; color: #344054; font-size: 17px; line-height: 1.9; max-width: 620px; }
     .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
       height: 46px;
       padding: 0 20px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.45);
+      border: 0;
+      border-radius: 8px;
+      background: var(--navy);
       color: #fff;
-      background: rgba(255,255,255,.10);
-      backdrop-filter: blur(8px);
-      font-weight: 700;
+      font-weight: 750;
+      letter-spacing: .03em;
       cursor: pointer;
+      box-shadow: 0 12px 24px rgba(12,35,68,.18);
     }
 
     .toolbar {
       max-width: 1240px;
       margin: 0 auto;
-      padding: 28px 28px 16px;
+      padding: 26px 28px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 24px;
       border-bottom: 1px solid var(--line);
     }
-
-    .filters {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
+    .filters { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
     .filter {
       border: 0;
       background: transparent;
       padding: 8px 2px;
       color: #475467;
-      font-weight: 700;
+      font-weight: 750;
       cursor: pointer;
       position: relative;
     }
-
     .filter.active { color: var(--navy); }
-    .filter.active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 2px;
-      background: var(--navy);
-    }
+    .filter.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--navy); }
+    .meta-line { color: #667085; font-size: 14px; white-space: nowrap; }
 
-    .meta-line {
-      color: #667085;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-
-    .content {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 42px 28px 58px;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 20px;
-      margin-bottom: 26px;
-    }
-
+    .content { max-width: 1240px; margin: 0 auto; padding: 42px 28px 58px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 24px; }
     .section-title {
       font-family: Georgia, "Times New Roman", "Noto Serif TC", serif;
       font-size: 34px;
@@ -292,13 +194,7 @@
       font-weight: 500;
       color: var(--navy);
     }
-
-    .section-subtitle {
-      margin-top: 7px;
-      color: #667085;
-      font-size: 15px;
-    }
-
+    .section-subtitle { margin-top: 7px; color: var(--muted); font-size: 15px; }
     .search-panel {
       min-width: 280px;
       height: 44px;
@@ -310,29 +206,12 @@
       padding: 0 16px;
       background: #fff;
     }
+    .search-panel input { border: 0; outline: none; width: 100%; font-size: 14px; }
+    .status { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
 
-    .search-panel input {
-      border: 0;
-      outline: none;
-      width: 100%;
-      font-size: 14px;
-    }
-
-    .status {
-      color: #667085;
-      font-size: 14px;
-      margin-bottom: 18px;
-    }
-
-    .album-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
-      align-items: start;
-    }
-
+    .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 42px; }
+    .album-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: start; }
     .album-card {
-      grid-column: span 4;
       background: #fff;
       border: 1px solid #eceff4;
       box-shadow: 0 12px 30px rgba(15,23,42,.07);
@@ -340,155 +219,66 @@
       overflow: hidden;
       cursor: pointer;
     }
-
-    .album-card:nth-child(1) { grid-column: span 5; }
-    .album-card:nth-child(2) { grid-column: span 4; }
-    .album-card:nth-child(3) { grid-column: span 3; }
-    .album-card:nth-child(4) { grid-column: span 4; }
-    .album-card:nth-child(5) { grid-column: span 5; }
-    .album-card:nth-child(6) { grid-column: span 3; }
-
-    .album-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-    }
-
-    .album-cover {
-      height: 260px;
-      overflow: hidden;
-      background: #e9edf3;
-      position: relative;
-    }
-
-    .album-card:nth-child(1) .album-cover { height: 330px; }
-    .album-card:nth-child(3) .album-cover { height: 330px; }
-    .album-card:nth-child(5) .album-cover { height: 300px; }
-
-    .album-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .36s ease;
-    }
-
+    .album-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .album-cover { height: 230px; overflow: hidden; background: #e9edf3; position: relative; }
+    .featured-grid .album-cover { height: 260px; }
+    .album-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .36s ease; }
     .album-card:hover .album-cover img { transform: scale(1.04); }
-
-    .album-body {
-      padding: 18px 20px 20px;
-    }
-
-    .album-kicker {
-      color: var(--accent);
+    .album-label {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(12, 35, 68, .82);
+      color: #fff;
+      border-radius: 999px;
+      padding: 6px 12px;
       font-size: 12px;
       font-weight: 800;
-      letter-spacing: .08em;
-      margin-bottom: 8px;
+      backdrop-filter: blur(8px);
     }
+    .album-body { padding: 18px 20px 20px; }
+    .album-kicker { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .08em; margin-bottom: 8px; }
+    .album-title { font-size: 20px; font-weight: 750; line-height: 1.35; color: var(--ink); margin-bottom: 8px; }
+    .album-desc { color: var(--muted); font-size: 14px; line-height: 1.65; margin-bottom: 14px; min-height: 46px; }
+    .album-meta { color: var(--muted); font-size: 13px; display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+    .album-action { margin-left: auto; color: var(--navy); font-weight: 750; }
 
-    .album-title {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.35;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-
-    .album-desc {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
-
-    .album-meta {
-      color: #667085;
-      font-size: 13px;
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-
-    .photo-card {
-      background: #fff;
-      border: 1px solid #eceff4;
-      box-shadow: 0 10px 24px rgba(15,23,42,.07);
-      overflow: hidden;
-      transition: .22s ease;
-    }
-
+    .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .photo-card { background: #fff; border: 1px solid #eceff4; box-shadow: 0 10px 24px rgba(15,23,42,.07); overflow: hidden; transition: .22s ease; }
     .photo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
     .photo-cover { height: 220px; background: #e9edf3; overflow: hidden; }
     .photo-cover img { width: 100%; height: 100%; object-fit: cover; transition: .36s ease; }
     .photo-card:hover img { transform: scale(1.04); }
     .photo-body { padding: 14px 16px 16px; }
     .photo-title { font-weight: 700; color: var(--ink); line-height: 1.35; }
-    .photo-meta { margin-top: 7px; color: #667085; font-size: 13px; }
-
-    .back-btn {
-      display: none;
-      margin-bottom: 24px;
-      width: max-content;
-      color: var(--navy);
-      font-weight: 700;
-      border-bottom: 1px solid var(--navy);
-      padding-bottom: 4px;
-    }
-
-    .empty, .error {
-      grid-column: 1 / -1;
-      padding: 50px 24px;
-      text-align: center;
-      background: #fafbfc;
-      border: 1px dashed #d0d5dd;
-      color: #667085;
-    }
-
+    .photo-meta { margin-top: 7px; color: var(--muted); font-size: 13px; }
+    .back-btn { display: none; margin-bottom: 24px; width: max-content; color: var(--navy); font-weight: 750; border-bottom: 1px solid var(--navy); padding-bottom: 4px; }
+    .empty, .error { grid-column: 1 / -1; padding: 50px 24px; text-align: center; background: #fafbfc; border: 1px dashed #d0d5dd; color: var(--muted); }
     .error { color: #b42318; background: #fff7f7; border-color: #fecdca; }
 
-    .footer {
-      border-top: 1px solid var(--line);
-      background: #f8fafc;
-    }
-
-    .footer-inner {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      color: #667085;
-      font-size: 13px;
-    }
-
-    .footer-brand { font-weight: 700; color: var(--navy); }
+    .footer { border-top: 1px solid var(--line); background: #f8fafc; }
+    .footer-inner { max-width: 1240px; margin: 0 auto; padding: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; color: var(--muted); font-size: 13px; }
+    .footer-brand { font-weight: 750; color: var(--navy); }
 
     @media (max-width: 980px) {
       .toolbar, .section-head, .footer-inner { flex-direction: column; align-items: flex-start; }
       .meta-line { white-space: normal; }
-      .album-card, .album-card:nth-child(n) { grid-column: span 6; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .album-grid { grid-template-columns: repeat(2, 1fr); }
       .photo-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media (max-width: 680px) {
       .site-header { height: auto; }
       .header-inner { padding: 14px 18px; flex-wrap: wrap; }
       .brand-title { white-space: normal; font-size: 14px; }
       .brand-subtitle { white-space: normal; }
       .hero { min-height: 420px; }
-      .hero-inner { padding: 58px 20px 48px; }
-      h1 { font-size: 44px; }
+      .hero-inner { min-height: 420px; padding: 58px 20px 48px; }
+      h1 { font-size: 42px; }
       .toolbar, .content { padding-left: 20px; padding-right: 20px; }
-      .album-card, .album-card:nth-child(n) { grid-column: 1 / -1; }
-      .photo-grid { grid-template-columns: 1fr; }
+      .album-grid, .photo-grid { grid-template-columns: 1fr; }
       .search-panel { width: 100%; min-width: 0; }
+      .browse-btn { padding: 0 14px; }
     }
   </style>
 </head>
@@ -504,19 +294,18 @@
       </a>
       <div class="header-actions">
         <button class="search-mini" id="focusSearch" aria-label="搜尋">⌕</button>
-        <button class="browse-btn" id="browseBtn">▣ 瀏覽相簿</button>
+        <button class="browse-btn" id="browseBtn">▣ 瀏覽全部相簿</button>
       </div>
     </div>
   </header>
 
   <section class="hero" id="hero">
-    <div class="hero-bg" id="heroBg"></div>
     <div class="hero-inner">
       <div class="hero-copy">
-        <div class="eyebrow">記錄成長・見證學習・連繫社群</div>
+        <div class="eyebrow">記錄成長・分享感動</div>
         <h1 id="siteTitle"></h1>
-        <p id="siteSubtitle"></p>
-        <button class="hero-cta" id="heroCta">探索活動相簿 →</button>
+        <p>記錄同學在不同活動中的學習足跡與成長時刻，每一幅相片，都是珍貴的回憶與力量。</p>
+        <button class="hero-cta" id="heroCta">瀏覽全部相簿</button>
       </div>
     </div>
   </section>
@@ -530,15 +319,17 @@
     <a class="back-btn" id="backBtn" href="./">返回所有相簿</a>
     <div class="section-head">
       <div>
-        <div class="section-title" id="sectionTitle">最新活動相簿</div>
-        <div class="section-subtitle" id="sectionSubtitle">以影像記錄學生在尚計劃中的真實學習與成長瞬間。</div>
+        <div class="section-title" id="sectionTitle">精選活動相簿</div>
+        <div class="section-subtitle" id="sectionSubtitle">每個活動相簿均附有簡介，讓您快速了解活動內容與學生的學習成果。</div>
       </div>
       <label class="search-panel">
         <span>⌕</span>
-        <input id="searchInput" type="search" placeholder="搜尋相簿或相片..." />
+        <input id="searchInput" type="search" placeholder="搜尋活動或相簿..." />
       </label>
     </div>
     <div class="status" id="status">正在載入...</div>
+    <section class="featured-grid" id="featuredGrid"></section>
+    <div class="section-title" id="moreTitle" style="font-size:28px;margin:12px 0 22px;">更多活動相簿</div>
     <section class="album-grid" id="grid"></section>
   </main>
 
@@ -548,14 +339,12 @@
         <div class="footer-brand" id="footerSchool"></div>
         <div id="footerText"></div>
       </div>
-      <div>© 2026 版權所有</div>
+      <div>明智顯悲・正行正念</div>
     </div>
   </footer>
 
   <script>
     const CONFIG = window.GALLERY_CONFIG || {};
-    const cameraFallback = "url('data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#2f3f55"/></linearGradient></defs><rect width="1600" height="760" fill="url(#g)"/><circle cx="1160" cy="300" r="170" fill="rgba(255,255,255,.10)"/><circle cx="1160" cy="300" r="92" fill="rgba(255,255,255,.13)"/><rect x="1010" y="190" width="300" height="220" rx="28" fill="rgba(255,255,255,.12)"/><rect x="150" y="520" width="430" height="14" rx="7" fill="rgba(255,255,255,.18)"/><rect x="180" y="560" width="320" height="10" rx="5" fill="rgba(255,255,255,.12)"/></svg>`).replace(/'/g,"%27") + "')";
-
     let albums = [];
     let photos = [];
     let mode = "albums";
@@ -569,12 +358,10 @@
       setText("schoolZh", CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校");
       setText("schoolEn", CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School");
       setText("siteTitle", CONFIG.siteTitle || "尚計劃活動相片集");
-      setText("siteSubtitle", CONFIG.siteSubtitle || "記錄學生參與尚銀行、網尚店、工作體驗及校園服務的學習歷程。");
       setText("footerSchool", (CONFIG.schoolNameZh || "香海正覺蓮社佛教普光學校") + "｜" + (CONFIG.schoolNameEn || "HHCLKA Buddhist Po Kwong School"));
-      setText("footerText", CONFIG.footerText || "HHCLKA Buddhist Po Kwong School");
+      setText("footerText", CONFIG.footerText || "© 2026 HHCLKA Buddhist Po Kwong School. All rights reserved.");
       renderBrandMark();
       renderFilters();
-
       document.getElementById("searchInput").addEventListener("input", renderCurrent);
       document.getElementById("browseBtn").addEventListener("click", scrollToGallery);
       document.getElementById("heroCta").addEventListener("click", scrollToGallery);
@@ -582,7 +369,6 @@
         scrollToGallery();
         setTimeout(() => document.getElementById("searchInput").focus(), 450);
       });
-
       const albumId = new URLSearchParams(location.search).get("album");
       albumId ? loadAlbum(albumId) : loadAlbums();
     }
@@ -601,7 +387,6 @@
       document.getElementById("filters").innerHTML = cats.map((cat, index) => `
         <button class="filter ${index === 0 ? "active" : ""}" data-category="${escapeAttr(cat)}">${escapeHtml(cat)}</button>
       `).join("");
-
       document.getElementById("filters").addEventListener("click", event => {
         const button = event.target.closest(".filter");
         if (!button) return;
@@ -617,14 +402,14 @@
       currentAlbum = null;
       photos = [];
       document.getElementById("backBtn").style.display = "none";
-      setText("sectionTitle", "最新活動相簿");
-      setText("sectionSubtitle", "以影像記錄學生在尚計劃中的真實學習與成長瞬間。");
-
+      document.getElementById("featuredGrid").style.display = "grid";
+      document.getElementById("moreTitle").style.display = "block";
+      setText("sectionTitle", "精選活動相簿");
+      setText("sectionSubtitle", "每個活動相簿均附有簡介，讓您快速了解活動內容與學生的學習成果。");
       try {
         const data = await getJson("albums");
         if (!data.ok) throw new Error(data.error || "API 回傳錯誤");
         albums = Array.isArray(data.albums) ? data.albums : [];
-        updateHero(albums.find(album => String(album.featured).toUpperCase() === "TRUE") || albums[0]);
         updateMeta();
         renderAlbums();
       } catch (error) {
@@ -635,22 +420,15 @@
     async function loadAlbum(albumId) {
       mode = "photos";
       document.getElementById("backBtn").style.display = "inline-block";
-
+      document.getElementById("featuredGrid").style.display = "none";
+      document.getElementById("moreTitle").style.display = "none";
       try {
         const data = await getJson("photos", { albumId });
         if (!data.ok) throw new Error(data.error || "API 回傳錯誤");
         currentAlbum = data.album || { title: "活動相簿", category: "其他" };
         photos = Array.isArray(data.photos) ? data.photos : [];
         setText("sectionTitle", currentAlbum.title || "活動相簿");
-        setText("sectionSubtitle", [currentAlbum.dateText, currentAlbum.description].filter(Boolean).join("　"));
-        updateHero({
-          title: currentAlbum.title,
-          description: currentAlbum.description,
-          dateText: currentAlbum.dateText,
-          category: currentAlbum.category,
-          coverUrl: photos[0] ? photos[0].thumbnailUrl : "",
-          photoCount: photos.length
-        });
+        setText("sectionSubtitle", [formatAlbumDate(currentAlbum.dateText), currentAlbum.description].filter(Boolean).join("　"));
         updateMeta();
         renderPhotos();
       } catch (error) {
@@ -690,43 +468,38 @@
       });
     }
 
-    function updateHero(album) {
-      const heroBg = document.getElementById("heroBg");
-      if (album && album.coverUrl) {
-        heroBg.style.setProperty("--hero-image", `url('${escapeCssUrl(album.coverUrl)}')`);
-      } else {
-        heroBg.style.setProperty("--hero-image", cameraFallback);
-      }
-    }
-
     function updateMeta() {
       const albumCount = mode === "photos" ? 1 : albums.length;
-      const photoCount = mode === "photos"
-        ? photos.length
-        : albums.reduce((sum, album) => sum + Number(album.photoCount || 0), 0);
+      const photoCount = mode === "photos" ? photos.length : albums.reduce((sum, album) => sum + Number(album.photoCount || 0), 0);
       const latestDate = mode === "photos"
         ? (photos[0] ? photos[0].updatedAt : "")
         : ([...albums].sort((a, b) => new Date(b.latestUpdated || 0) - new Date(a.latestUpdated || 0))[0] || {}).latestUpdated;
-      setText("metaLine", `${albumCount} 個相簿　・　${photoCount} 張相片　・　最近更新 ${formatSmartDate(latestDate)}`);
+      setText("metaLine", `${albumCount} 個相簿　・　${photoCount} 張相片　・　最近更新 ${formatAlbumDate(latestDate)}`);
     }
 
-    function renderCurrent() {
-      mode === "albums" ? renderAlbums() : renderPhotos();
-    }
+    function renderCurrent() { mode === "albums" ? renderAlbums() : renderPhotos(); }
 
-    function renderAlbums() {
+    function getFilteredAlbums() {
       const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
       let list = albums.filter(album => activeCategory === "全部相簿" || album.category === activeCategory);
       if (keyword) {
         list = list.filter(album => [album.title, album.category, album.description, album.dateText].join(" ").toLowerCase().includes(keyword));
       }
+      return list.sort((a, b) => Number(a.sortOrder || 999) - Number(b.sortOrder || 999));
+    }
 
+    function renderAlbums() {
+      const list = getFilteredAlbums();
       setText("status", list.length ? `已載入 ${list.length} 個相簿` : "暫時未有相簿");
-      const grid = document.getElementById("grid");
-      grid.className = "album-grid";
-      grid.innerHTML = list.length
-        ? list.map(renderAlbumCard).join("")
-        : `<div class="empty"><strong>暫時未有相簿</strong><br>請在 Google Sheet 的 Albums 工作頁新增資料，並將 published 設為 TRUE。</div>`;
+      const featured = list.slice(0, 3);
+      const more = list.slice(3);
+      document.getElementById("featuredGrid").innerHTML = featured.length
+        ? featured.map(album => renderAlbumCard(album, true)).join("")
+        : `<div class="empty">暫時未有精選相簿</div>`;
+      document.getElementById("grid").className = "album-grid";
+      document.getElementById("grid").innerHTML = more.length
+        ? more.map(album => renderAlbumCard(album, false)).join("")
+        : `<div class="empty"><strong>${featured.length ? "暫時未有更多相簿" : "暫時未有相簿"}</strong><br>請在 Google Sheet 的 Albums 工作頁新增資料，並將 published 設為 TRUE。</div>`;
     }
 
     function renderPhotos() {
@@ -741,22 +514,21 @@
         : `<div class="empty"><strong>暫時未有相片</strong><br>請把 JPG / PNG 相片放入此活動的 Google Drive Folder。</div>`;
     }
 
-    function renderAlbumCard(album) {
+    function renderAlbumCard(album, isFeatured) {
       return `
         <article class="album-card" onclick="location.href='?album=${encodeURIComponent(album.id)}'">
           <div class="album-cover">
             <img src="${escapeAttr(album.coverUrl || "")}" alt="${escapeAttr(album.title || "活動相簿")}" loading="lazy" onerror="this.style.display='none'">
+            <div class="album-label">${escapeHtml(album.category || "活動")}</div>
           </div>
           <div class="album-body">
-            <div class="album-kicker">${escapeHtml(album.category || "活動相簿")}</div>
             <div class="album-title">${escapeHtml(album.title || "未命名相簿")}</div>
             <div class="album-desc">${escapeHtml(album.description || "此相簿記錄活動中的學習過程與精彩時刻。")}</div>
             <div class="album-meta">
-              <span>${escapeHtml(album.dateText || "日期待定")}</span>
-              <span>・</span>
+              <span>${escapeHtml(formatAlbumDate(album.dateText))}</span>
+              <span>｜</span>
               <span>${Number(album.photoCount || 0)} 張相片</span>
-              <span>・</span>
-              <span>查看相簿 →</span>
+              <span class="album-action">查看相簿 →</span>
             </div>
           </div>
         </article>
@@ -767,64 +539,44 @@
       return `
         <article class="photo-card">
           <a href="${escapeAttr(photo.viewUrl || "#")}" target="_blank" rel="noopener">
-            <div class="photo-cover">
-              <img src="${escapeAttr(photo.thumbnailUrl || "")}" alt="${escapeAttr(photo.name || "相片")}" loading="lazy" onerror="this.style.display='none'">
-            </div>
-            <div class="photo-body">
-              <div class="photo-title">${escapeHtml(photo.name || "未命名相片")}</div>
-              <div class="photo-meta">${formatDate(photo.updatedAt || photo.createdAt)}</div>
-            </div>
+            <div class="photo-cover"><img src="${escapeAttr(photo.thumbnailUrl || "")}" alt="${escapeAttr(photo.name || "相片")}" loading="lazy" onerror="this.style.display='none'"></div>
+            <div class="photo-body"><div class="photo-title">${escapeHtml(photo.name || "未命名相片")}</div><div class="photo-meta">${formatAlbumDate(photo.updatedAt || photo.createdAt)}</div></div>
           </a>
         </article>
       `;
     }
 
     function showError(message) {
+      document.getElementById("featuredGrid").innerHTML = "";
       const grid = document.getElementById("grid");
       grid.className = "album-grid";
       grid.innerHTML = `<div class="error"><strong>載入失敗</strong><br>${escapeHtml(message)}</div>`;
       setText("status", "請檢查 Google Sheet 及 Apps Script 設定。");
     }
 
-    function scrollToGallery() {
-      document.getElementById("galleryArea").scrollIntoView({ behavior: "smooth" });
-    }
+    function scrollToGallery() { document.getElementById("galleryArea").scrollIntoView({ behavior: "smooth" }); }
+    function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
 
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
-
-    function formatDate(value) {
+    function formatAlbumDate(value) {
       if (!value) return "日期待定";
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return "日期待定";
-      return date.toLocaleDateString("zh-HK", { year: "numeric", month: "long", day: "numeric" });
+      if (value instanceof Date) return ddmmyyyy(value);
+      const raw = String(value).trim();
+      const zhFull = raw.match(/(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+      if (zhFull) return pad(zhFull[3]) + "-" + pad(zhFull[2]) + "-" + zhFull[1];
+      const iso = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (iso) return pad(iso[3]) + "-" + pad(iso[2]) + "-" + iso[1];
+      const parsed = new Date(raw);
+      if (!Number.isNaN(parsed.getTime())) return ddmmyyyy(parsed);
+      return raw;
     }
 
-    function formatSmartDate(value) {
-      if (!value) return "--";
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return "--";
-      return date.toLocaleDateString("zh-HK", { month: "short", day: "numeric" });
-    }
+    function ddmmyyyy(date) { return pad(date.getDate()) + "-" + pad(date.getMonth() + 1) + "-" + date.getFullYear(); }
+    function pad(value) { return String(value).padStart(2, "0"); }
 
     function escapeHtml(text) {
-      return String(text ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+      return String(text ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
     }
-
-    function escapeAttr(text) {
-      return escapeHtml(text).replaceAll("`", "&#096;");
-    }
-
-    function escapeCssUrl(url) {
-      return String(url || "").replace(/'/g, "%27").replace(/\)/g, "%29");
-    }
+    function escapeAttr(text) { return escapeHtml(text).replaceAll("`", "&#096;"); }
   </script>
 </body>
 </html>
