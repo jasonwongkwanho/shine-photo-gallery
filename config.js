@@ -1,6 +1,6 @@
 window.GALLERY_CONFIG = {
   schoolNameZh: "香海正覺蓮社佛教普光學校",
-  schoolNameEn: "HHCLKA Buddhist Po Kwong School",
+  schoolNameEn: "HHCKLA Buddhist Po Kwong School",
   logoUrl: "./assets/school-logo.png",
 
   siteTitle: "尚片集",
