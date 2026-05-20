@@ -15,7 +15,7 @@ window.GALLERY_CONFIG = {
   reviewCategory: "活動回顧",
   categories: ["焦點活動", "活動回顧"],
 
-  footerText: "HHCLKA Buddhist Po Kwong School",
+  footerText: "HHCKLA Buddhist Po Kwong School",
 
   apiBaseUrl: "https://script.google.com/macros/s/AKfycbzOe2BGz98pp1cozsTID82MH21dbpsTokCsPUU04R_LCgf4o8nqaKrEHo45_Ci8LGGONA/exec",
   apiMode: "jsonp"
